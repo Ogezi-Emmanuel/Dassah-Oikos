@@ -49,23 +49,7 @@ ${formData.designBrief}
     window.open(`https://api.whatsapp.com/send?phone=2348132098926&text=${encodedMessage}`, "_blank")
   }
 
-  const galleryImages = [
-    { src: "/DO 1.mp4", isVideo: true },
-    { src: "/DO 2.mp4", isVideo: true },
-    { src: "/DO 3.mp4", isVideo: true },
-    { src: "/DO 4.mp4", isVideo: true },
-    { src: "/DO 5.mp4", isVideo: true },
-  ]
 
-  const handleCommissionThisLook = () => {
-    const message = `
-*COMMISSION THIS LOOK*
-
-I'd like to commission a similar piece.
-    `.trim()
-    const encodedMessage = encodeURIComponent(message)
-    window.open(`https://api.whatsapp.com/send?phone=2348132098926&text=${encodedMessage}`, "_blank")
-  }
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
@@ -352,51 +336,7 @@ I'd like to commission a similar piece.
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section id="atelier" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <motion.h2
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-16 text-center"
-          >
-            The Atelier
-          </motion.h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {galleryImages.map((item, index) => (
-              <motion.div
-                key={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { duration: 0.8, delay: index * 0.1 } } }}
-                className="group relative aspect-[3/4] overflow-hidden rounded-2xl"
-              >
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                >
-                  <source src={item.src} type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-gradient-to-t from-onyx/90 via-onyx/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end p-6">
-                  <Button
-                    onClick={handleCommissionThisLook}
-                    className="bg-burgundy hover:bg-burgundy/90 text-white px-8 py-3 h-auto rounded-full border border-rosegold/30 transition-all hover:scale-105"
-                  >
-                    Commission This Look
-                  </Button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="py-16 px-6 border-t border-border">
