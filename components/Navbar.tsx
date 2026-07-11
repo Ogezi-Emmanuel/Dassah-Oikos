@@ -20,18 +20,16 @@ const Navbar = () => {
   }, [])
 
   const handleHashClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    setIsMobileMenuOpen(false)
     if (href.includes('#')) {
       const [path, hash] = href.split('#')
-      if (pathname === path || path === '/') {
+      if (pathname === path) {
         e.preventDefault()
         const element = document.getElementById(hash)
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' })
-          setIsMobileMenuOpen(false)
         }
       }
-    } else {
-      setIsMobileMenuOpen(false)
     }
   }
 

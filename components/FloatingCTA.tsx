@@ -10,7 +10,7 @@ const FloatingCTA = () => {
   const handleHashClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.includes('#')) {
       const [path, hash] = href.split('#')
-      if (pathname === path || path === '/') {
+      if (pathname === path) {
         e.preventDefault()
         const element = document.getElementById(hash)
         if (element) {

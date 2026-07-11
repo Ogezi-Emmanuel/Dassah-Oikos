@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import ScrollHandler from "@/components/ScrollHandler"
 
 export default function Home() {
   const bookingRef = useRef<HTMLDivElement>(null)
@@ -58,6 +59,7 @@ ${formData.designBrief}
 
   return (
     <div className="min-h-screen bg-onyx">
+      <ScrollHandler />
       {/* Hero Section */}
       <section className="relative h-screen w-full overflow-hidden">
         <video
