@@ -73,7 +73,7 @@ const Navbar = () => {
             <Link
               href="/#booking"
               onClick={(e) => handleHashClick(e, "/#booking")}
-              className="bg-burgundy hover:bg-burgundy/90 text-white px-6 py-2 rounded-full border border-rosegold/30 transition-all hover:scale-105 font-sans text-sm"
+              className="bg-burgundy hover:bg-burgundy/90 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full border border-rosegold/30 transition-all hover:scale-105 font-sans text-xs md:text-sm whitespace-nowrap"
             >
               Book Consultation
             </Link>
