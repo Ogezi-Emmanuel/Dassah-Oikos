@@ -21,6 +21,11 @@ export const metadata: Metadata = {
   title: "DASSAH OÍKOS | Bespoke Couture Studio",
   description: "Masterpieces in Corsetry & Couture. Bespoke Bridal, Prom, and Occasion Wear. Crafted in Lagos, Shipped Worldwide.",
   keywords: "bespoke couture, luxury corsetry, custom bridal, prom dresses, occasion wear, Lagos fashion",
+  icons: {
+    icon: [{ url: "/Dassah Oikos Logo.jpeg", type: "image/jpeg" }],
+    shortcut: [{ url: "/Dassah Oikos Logo.jpeg", type: "image/jpeg" }],
+    apple: [{ url: "/Dassah Oikos Logo.jpeg", type: "image/jpeg" }],
+  },
   openGraph: {
     title: "DASSAH OÍKOS | Bespoke Couture Studio",
     description: "Masterpieces in Corsetry & Couture. Bespoke Bridal, Prom, and Occasion Wear. Crafted in Lagos, Shipped Worldwide.",
@@ -34,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
         className={`${inter.variable} ${playfairDisplay.variable} antialiased`}
       >

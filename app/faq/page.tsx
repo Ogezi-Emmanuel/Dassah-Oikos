@@ -53,10 +53,10 @@ const FAQPage = () => {
             variants={fadeInUp}
             className="text-center mb-20"
           >
-            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white mb-6">
+            <h1 className="mb-6 font-serif text-5xl font-bold text-foreground md:text-7xl">
               Frequently Asked Questions
             </h1>
-            <p className="text-gray-400 text-lg font-sans">
+            <p className="text-lg font-sans text-foreground/70">
               Everything you need to know about our bespoke couture process
             </p>
           </motion.div>
@@ -75,7 +75,7 @@ const FAQPage = () => {
                   onClick={() => setOpenItem(openItem === index ? null : index)}
                   className="w-full p-8 text-left flex items-center justify-between"
                 >
-                  <h3 className="font-serif text-xl md:text-2xl font-bold text-white">
+                  <h3 className="font-serif text-xl font-bold text-foreground md:text-2xl">
                     {faq.question}
                   </h3>
                   <div className="text-rosegold transition-transform">
@@ -91,7 +91,7 @@ const FAQPage = () => {
                       className="overflow-hidden"
                     >
                       <div className="px-8 pb-8 pt-0">
-                        <p className="text-gray-400 font-sans leading-relaxed">
+                        <p className="font-sans leading-relaxed text-foreground/70">
                           {faq.answer}
                         </p>
                       </div>
@@ -107,12 +107,12 @@ const FAQPage = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { delay: 0.5 } } }}
-            className="mt-20 text-center bg-gradient-to-r from-burgundy/20 to-rosegold/20 rounded-3xl p-12 border border-rosegold/20"
+            className="mt-20 rounded-3xl border border-rosegold/20 bg-gradient-to-r from-burgundy/10 to-rosegold/20 p-12 text-center"
           >
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="mb-6 font-serif text-3xl font-bold text-foreground md:text-4xl">
               Still Have Questions?
             </h2>
-            <p className="text-gray-300 mb-8 font-sans">
+            <p className="mb-8 font-sans text-foreground/70">
               We're here to help! Reach out to us for a private consultation.
             </p>
             <a

@@ -17,10 +17,10 @@ const TermsOfServicePage = () => {
           variants={fadeInUp}
           className="mb-16"
         >
-          <h1 className="font-serif text-4xl md:text-6xl font-bold text-white mb-6">
+          <h1 className="mb-6 font-serif text-4xl font-bold text-foreground md:text-6xl">
             Terms of Service
           </h1>
-          <p className="text-gray-400 text-lg">Last Updated: July 2026</p>
+          <p className="text-lg text-foreground/65">Last Updated: July 2026</p>
         </motion.div>
 
         <motion.div
@@ -31,10 +31,10 @@ const TermsOfServicePage = () => {
           className="space-y-12"
         >
           <section>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-6">
+            <h2 className="mb-6 font-serif text-2xl font-bold text-foreground md:text-3xl">
               1. Agreement to Terms
             </h2>
-            <p className="text-gray-300 font-sans leading-relaxed">
+            <p className="font-sans leading-relaxed text-foreground/75">
               By accessing our website, you agree to be bound by these Terms of Service and
               all applicable laws and regulations. If you do not agree with any of these terms,
               you are prohibited from using or accessing this site.
@@ -42,10 +42,10 @@ const TermsOfServicePage = () => {
           </section>
 
           <section>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-6">
+            <h2 className="mb-6 font-serif text-2xl font-bold text-foreground md:text-3xl">
               2. Services
             </h2>
-            <p className="text-gray-300 font-sans leading-relaxed">
+            <p className="font-sans leading-relaxed text-foreground/75">
               DASSAH OÍKOS provides bespoke couture services including custom bridal wear,
               evening gowns, and luxury corsetry. All services are subject to availability
               and our discretion.
@@ -53,14 +53,14 @@ const TermsOfServicePage = () => {
           </section>
 
           <section>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-6">
+            <h2 className="mb-6 font-serif text-2xl font-bold text-foreground md:text-3xl">
               3. Deposits & Payments
             </h2>
-            <p className="text-gray-300 font-sans leading-relaxed mb-4">
+            <p className="mb-4 font-sans leading-relaxed text-foreground/75">
               A 50% non-refundable deposit is required to begin work on any custom piece.
               The remaining balance is due before the final fitting or delivery.
             </p>
-            <ul className="list-disc list-inside text-gray-300 font-sans space-y-2 ml-4">
+            <ul className="ml-4 list-inside list-disc space-y-2 font-sans text-foreground/75">
               <li>Deposits secure your spot in our production schedule</li>
               <li>All prices are in Nigerian Naira (₦)</li>
               <li>Prices subject to change without notice</li>
@@ -68,10 +68,10 @@ const TermsOfServicePage = () => {
           </section>
 
           <section>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-6">
+            <h2 className="mb-6 font-serif text-2xl font-bold text-foreground md:text-3xl">
               4. Cancellation Policy
             </h2>
-            <p className="text-gray-300 font-sans leading-relaxed">
+            <p className="font-sans leading-relaxed text-foreground/75">
               If you need to cancel your order, please contact us immediately. Deposits are
               non-refundable. Cancellations made after work has commenced may be subject
               to additional fees based on the progress of your order.
@@ -79,10 +79,10 @@ const TermsOfServicePage = () => {
           </section>
 
           <section>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-6">
+            <h2 className="mb-6 font-serif text-2xl font-bold text-foreground md:text-3xl">
               5. Intellectual Property
             </h2>
-            <p className="text-gray-300 font-sans leading-relaxed">
+            <p className="font-sans leading-relaxed text-foreground/75">
               All content on this website, including but not limited to text, graphics,
               images, videos, and software, is the property of DASSAH OÍKOS and is protected
               by copyright laws.
@@ -90,10 +90,10 @@ const TermsOfServicePage = () => {
           </section>
 
           <section>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-6">
+            <h2 className="mb-6 font-serif text-2xl font-bold text-foreground md:text-3xl">
               6. Contact Us
             </h2>
-            <p className="text-gray-300 font-sans leading-relaxed">
+            <p className="font-sans leading-relaxed text-foreground/75">
               For any questions about these Terms of Service, please contact us at:
               bookings@dassahoikos.com
             </p>

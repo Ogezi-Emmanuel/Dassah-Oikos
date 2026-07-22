@@ -1,11 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState } from "react"
 
 const CollectionsPage = () => {
-  const [activeFilter, setActiveFilter] = useState("all")
-
   const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
@@ -14,37 +11,71 @@ const CollectionsPage = () => {
   const collections = [
     {
       id: 1,
-      name: "Bridal Couture 2024",
-      description: "Elegant and timeless wedding gowns",
-      category: "bridal",
+      name: "Look 01",
+      description: "A study in sculpted femininity and polished couture finish.",
       video: "/DO 1.mp4",
     },
     {
       id: 2,
-      name: "Evening Elegance",
-      description: "Luxury evening wear for special occasions",
-      category: "evening",
+      name: "Look 02",
+      description: "Designed to command the room with grace, structure, and ease.",
       video: "/DO 2.mp4",
     },
     {
       id: 3,
-      name: "Corsetry Collection",
-      description: "Masterpieces in structured corsetry",
-      category: "corsetry",
+      name: "Look 03",
+      description: "Where dramatic shape meets refined detailing.",
       video: "/DO 3.mp4",
     },
     {
       id: 4,
-      name: "Prom Dreams",
-      description: "Show-stopping prom dresses",
-      category: "prom",
+      name: "Look 04",
+      description: "A bold silhouette built for milestone entrances.",
       video: "/DO 4.mp4",
     },
+    {
+      id: 5,
+      name: "Look 05",
+      description: "Soft movement, rich finish, and unmistakable presence.",
+      video: "/DO 5.mp4",
+    },
+    {
+      id: 6,
+      name: "Look 06",
+      description: "An elegant composition of proportion, polish, and luxury.",
+      video: "/DO 6.mp4",
+    },
+    {
+      id: 7,
+      name: "Look 07",
+      description: "Crafted to feel cinematic from the first glance.",
+      video: "/DO 7.mp4",
+    },
+    {
+      id: 8,
+      name: "Look 08",
+      description: "Statement dressing with couture restraint and precision.",
+      video: "/DO 8.mp4",
+    },
+    {
+      id: 9,
+      name: "Look 09",
+      description: "A luxurious silhouette shaped for confidence and memory.",
+      video: "/DO 9.mp4",
+    },
+    {
+      id: 10,
+      name: "Look 10",
+      description: "Refined glamour interpreted through movement and finish.",
+      video: "/DO 10.mp4",
+    },
+    {
+      id: 11,
+      name: "Look 11",
+      description: "An editorial closing note in the language of couture.",
+      video: "/DO 11.mp4",
+    },
   ]
-
-  const filteredCollections = activeFilter === "all"
-    ? collections
-    : collections.filter(c => c.category === activeFilter)
 
   return (
     <div className="min-h-screen pt-32">
@@ -57,40 +88,37 @@ const CollectionsPage = () => {
             variants={fadeInUp}
             className="text-center mb-16"
           >
-            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white mb-6">
-              Our Collections
+            <h1 className="mb-6 font-serif text-5xl font-bold text-foreground md:text-7xl">
+              The Collections
             </h1>
-            <p className="text-gray-400 text-lg font-sans max-w-2xl mx-auto">
-              Explore our exclusive collections of bespoke couture, each piece crafted
-              with passion and precision.
+            <p className="mx-auto max-w-2xl text-lg font-sans text-foreground/70">
+              A moving library of Dassah Oikos silhouettes, corsetry, and occasion dressing
+              captured in motion.
             </p>
           </motion.div>
 
-          {/* Filters */}
           <motion.div
             initial="hidden"
             animate="visible"
-            variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { delay: 0.2 } } }}
-            className="flex flex-wrap justify-center gap-4 mb-16"
+            variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { delay: 0.15 } } }}
+            className="mb-16 rounded-3xl border border-rosegold/25 bg-card/70 p-8 text-center"
           >
-            {["all", "bridal", "corsetry", "evening", "prom"].map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-6 py-2 rounded-full border transition-all font-sans capitalize ${
-                  activeFilter === filter
-                    ? "bg-burgundy border-burgundy text-white"
-                    : "border-border text-gray-400 hover:border-rosegold/50 hover:text-white"
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
+            <p className="font-sans text-lg text-foreground/75">
+              Looking for more references and behind-the-scenes inspiration?
+            </p>
+            <a
+              href="https://www.instagram.com/d.a.s.s.a.h_/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex rounded-full border border-rosegold/40 bg-burgundy px-6 py-3 font-sans text-white transition-all hover:scale-105 hover:bg-burgundy/90"
+            >
+              Explore More on Instagram
+            </a>
           </motion.div>
 
           {/* Grid */}
           <div className="grid md:grid-cols-2 gap-12">
-            {filteredCollections.map((collection, index) => (
+            {collections.map((collection, index) => (
               <motion.div
                 key={collection.id}
                 initial="hidden"
@@ -110,15 +138,13 @@ const CollectionsPage = () => {
                     <source src={collection.video} type="video/mp4" />
                   </video>
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-white mb-2">
+                <h3 className="mb-2 font-serif text-2xl font-bold text-foreground">
                   {collection.name}
                 </h3>
-                <p className="text-gray-400 font-sans mb-4">
+                <p className="mb-4 font-sans text-foreground/70">
                   {collection.description}
                 </p>
-                <button className="text-rosegold hover:text-white font-sans flex items-center gap-2 transition-colors">
-                  View Collection →
-                </button>
+                <p className="text-rosegold font-sans">Dassah Oikos in motion</p>
               </motion.div>
             ))}
           </div>
