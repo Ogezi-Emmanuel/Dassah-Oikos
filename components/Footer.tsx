@@ -103,7 +103,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="hover:text-rosegold transition-colors"
             >
-              Engineeredd by Emmanuel Ogezi
+              Engineered by Emmanuel Ogezi
             </a>
           </p>
         </div>
