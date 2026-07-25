@@ -19,9 +19,15 @@ const AboutPage = () => {
             variants={fadeInUp}
             className="text-center mb-20"
           >
+            <p className="mb-4 font-sans text-xs uppercase tracking-[0.3em] text-burgundy">
+              Founder Story
+            </p>
             <h1 className="mb-6 font-serif text-5xl font-bold text-foreground md:text-7xl">
-              The Designer
+              The Creative Director
             </h1>
+            <p className="mx-auto max-w-2xl font-sans text-lg leading-relaxed text-foreground/70">
+              The woman behind Dassah Oikos shapes each commission with instinct, structure, and a deeply feminine understanding of what a remarkable dress should do.
+            </p>
             <div className="w-32 h-1 bg-gradient-to-r from-burgundy to-rosegold mx-auto"></div>
           </motion.div>
 
@@ -60,28 +66,33 @@ const AboutPage = () => {
               className="editorial-shell p-8 md:p-10"
             >
               <p className="mb-4 font-sans text-xs uppercase tracking-[0.28em] text-burgundy">
-                Founder Vision
+                Creative Vision
               </p>
               <h2 className="mb-8 font-serif text-3xl font-bold text-foreground md:text-4xl">
                 The Dream of Dassah Oikos
               </h2>
               <p className="mb-6 text-lg font-sans leading-relaxed text-foreground/75">
-                Dassah Oikos is rooted in a genuine love for craftsmanship, beauty, and the power
-                of clothing to transform how a woman feels. What began as an early fascination with
-                sewing grew into a disciplined creative journey shaped by curiosity, resilience, and
-                a wholehearted devotion to making something meaningful by hand.
+                Dassah Oikos was built from a sincere love for craftsmanship, beauty, and the quiet transformation that happens when a woman wears something made with intention. What began as fascination became discipline, and that discipline matured into a couture language rooted in refinement, femininity, and care.
               </p>
               <p className="mb-6 text-lg font-sans leading-relaxed text-foreground/75">
-                Over time, that passion was refined through training, practice, and an uncompromising
-                commitment to excellence. Every stage of the brand&apos;s evolution has been guided by
-                the same belief: that couture should be thoughtful, intentional, and deeply personal
-                in the way it honors the wearer.
+                Over time, that passion was strengthened through training, repetition, and an uncompromising respect for finish. Every piece is approached with the belief that couture should feel considered, flattering, and emotionally right for the woman wearing it.
               </p>
               <p className="mb-8 text-lg font-sans leading-relaxed text-foreground/75">
-                Today, Dassah Oikos stands for heartfelt creation, refined structure, and timeless
-                elegance. Each commission is approached with passion and wholeheartedness, resulting
-                in pieces that feel elevated, feminine, and worthy of the moments they are made for.
+                Today, the brand stands for thoughtful structure, expressive elegance, and wholehearted creation. The goal is never only to make a dress look beautiful, but to make the woman inside it feel clear, confident, and unforgettable.
               </p>
+
+              <div className="grid gap-4 sm:grid-cols-3">
+                {[
+                  { label: "Approach", value: "Intentional" },
+                  { label: "Silhouette", value: "Refined" },
+                  { label: "Finish", value: "Couture" },
+                ].map((item) => (
+                  <div key={item.label} className="rounded-[1.4rem] border border-rosegold/15 bg-white/35 p-4">
+                    <p className="font-sans text-[0.68rem] uppercase tracking-[0.22em] text-burgundy">{item.label}</p>
+                    <p className="mt-3 font-serif text-2xl font-bold text-foreground">{item.value}</p>
+                  </div>
+                ))}
+              </div>
             </motion.div>
           </div>
         </div>
@@ -97,22 +108,25 @@ const AboutPage = () => {
             className="text-center mb-16"
           >
             <h2 className="mb-6 font-serif text-4xl font-bold text-foreground md:text-5xl">
-              What We Stand For
+              Principles Behind The Brand
             </h2>
+            <p className="mx-auto max-w-2xl font-sans leading-relaxed text-foreground/68">
+              Every commission is guided by a clear creative standard: beauty, precision, and a final result that feels emotionally true to the moment.
+            </p>
           </motion.div>
           <div className="grid md:grid-cols-3 gap-12">
             {[
               {
                 title: "Beauty with Backbone",
-                description: "Every silhouette is designed to make presence feel intentional, powerful, and unforgettable."
+                description: "Every silhouette is shaped to feel elegant, assured, and strong without losing softness."
               },
               {
                 title: "Craft Above Convention",
-                description: "From corsetry structure to finishing details, each commission is handmade with patience and precision."
+                description: "From structure to finishing, each garment is treated with patience, detail, and disciplined execution."
               },
               {
-                title: "Legacy in Every Look",
-                description: "Dassah Oikos creates pieces that outlive the moment and become part of a woman's personal history."
+                title: "Memory in Every Look",
+                description: "Dassah Oikos creates pieces designed to live beyond the event and remain meaningful in memory."
               }
             ].map((item, index) => (
               <motion.div
@@ -155,6 +169,9 @@ const AboutPage = () => {
             <h2 className="mb-6 font-serif text-4xl font-bold text-foreground md:text-5xl">
               The World of Dassah Oikos
             </h2>
+            <p className="mx-auto max-w-2xl font-sans leading-relaxed text-foreground/68">
+              A house where structure, movement, and emotion come together to create dresses worthy of important rooms and important memories.
+            </p>
           </motion.div>
           <div className="grid gap-8 md:grid-cols-2">
             {[
