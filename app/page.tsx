@@ -198,6 +198,21 @@ export default function Home() {
 
   const selectedService = serviceOptions.find((service) => service.value === formData.serviceType) ?? serviceOptions[0]
   const selectedServiceFee = getServiceFee(formData.serviceType, formData.garmentType)
+  const maleDressMessage = encodeURIComponent(
+    [
+      "Hello Dassah Oikos,",
+      "",
+      "I would like to make an enquiry about a custom male dress/outfit.",
+      "",
+      "My name:",
+      "My location:",
+      "Occasion/event:",
+      "Preferred style or inspiration:",
+      "Timeline:",
+      "Budget range:",
+    ].join("\n"),
+  )
+  const maleDressWhatsAppUrl = `https://api.whatsapp.com/send?phone=2348086268136&text=${maleDressMessage}`
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
@@ -695,6 +710,24 @@ export default function Home() {
                 </div>
               </>
             )}
+
+            <div className="rounded-2xl border border-rosegold/20 bg-white/45 px-4 py-4 text-center sm:px-5">
+              <p className="font-sans text-[0.72rem] uppercase tracking-[0.2em] text-burgundy">
+                Alternative Enquiry
+              </p>
+              <p className="mt-2 font-sans text-sm leading-relaxed text-foreground/72">
+                For custom male dresses,{" "}
+                <a
+                  href={maleDressWhatsAppUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-medium text-burgundy underline decoration-rosegold/60 underline-offset-4 transition hover:text-burgundy/80"
+                >
+                  chat on WhatsApp
+                </a>
+                .
+              </p>
+            </div>
 
             <Button
               type="submit"
