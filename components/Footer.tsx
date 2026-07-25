@@ -6,21 +6,25 @@ import { Instagram, Mail, Phone, MapPin } from "lucide-react"
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border bg-card/80 px-6 pt-16 pb-8">
+    <footer className="border-t border-white/30 bg-[rgba(255,247,244,0.72)] px-6 pb-8 pt-16 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
+        <div className="mb-12 flex flex-col items-center justify-between gap-8 md:flex-row">
           {/* Brand */}
           <div className="text-center md:text-left">
+            <p className="mb-3 font-sans text-[0.72rem] uppercase tracking-[0.28em] text-burgundy">
+              Couture House Based in Lagos
+            </p>
             <Link href="/" className="inline-flex mb-4">
               <Image
-                src="/Dassah Oikos Logo.jpeg"
+                src="/Dassah Oikos Logo.png"
                 alt="Dassah Oikos"
-                width={220}
-                height={72}
+                width={260}
+                height={90}
+                sizes="260px"
                 className="h-16 w-auto"
               />
             </Link>
-            <p className="mb-6 font-sans text-foreground/70">
+            <p className="mb-6 max-w-md font-sans leading-relaxed text-foreground/70">
               Crafted in Lagos, Delivered Worldwide
             </p>
             <div className="flex justify-center md:justify-start gap-4">
@@ -68,23 +72,23 @@ const Footer = () => {
         </div>
 
         {/* Links */}
-        <div className="border-t border-border pt-8 flex flex-wrap justify-center gap-8 mb-8">
-          <Link href="/" className="font-sans text-sm text-foreground/70 transition-colors hover:text-rosegold">
+        <div className="mb-8 flex flex-wrap justify-center gap-8 border-t border-white/30 pt-8">
+          <Link href="/" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
             Home
           </Link>
-          <Link href="/about" className="font-sans text-sm text-foreground/70 transition-colors hover:text-rosegold">
+          <Link href="/about" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
             About
           </Link>
-          <Link href="/collections" className="font-sans text-sm text-foreground/70 transition-colors hover:text-rosegold">
+          <Link href="/collections" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
             Collections
           </Link>
-          <Link href="/faq" className="font-sans text-sm text-foreground/70 transition-colors hover:text-rosegold">
+          <Link href="/faq" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
             FAQ
           </Link>
-          <Link href="/privacy-policy" className="font-sans text-sm text-foreground/70 transition-colors hover:text-rosegold">
+          <Link href="/privacy-policy" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
             Privacy Policy
           </Link>
-          <Link href="/terms-of-service" className="font-sans text-sm text-foreground/70 transition-colors hover:text-rosegold">
+          <Link href="/terms-of-service" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
             Terms of Service
           </Link>
         </div>

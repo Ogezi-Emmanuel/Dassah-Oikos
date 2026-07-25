@@ -1,108 +1,27 @@
-"use client"
+import Image from "next/image"
+import Link from "next/link"
+import { getCollectionsCatalog } from "@/lib/media-library"
 
-import { motion } from "framer-motion"
-
-const CollectionsPage = () => {
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  }
-
-  const collections = [
-    {
-      id: 1,
-      name: "Look 01",
-      description: "A study in sculpted femininity and polished couture finish.",
-      video: "/DO 1.mp4",
-    },
-    {
-      id: 2,
-      name: "Look 02",
-      description: "Designed to command the room with grace, structure, and ease.",
-      video: "/DO 2.mp4",
-    },
-    {
-      id: 3,
-      name: "Look 03",
-      description: "Where dramatic shape meets refined detailing.",
-      video: "/DO 3.mp4",
-    },
-    {
-      id: 4,
-      name: "Look 04",
-      description: "A bold silhouette built for milestone entrances.",
-      video: "/DO 4.mp4",
-    },
-    {
-      id: 5,
-      name: "Look 05",
-      description: "Soft movement, rich finish, and unmistakable presence.",
-      video: "/DO 5.mp4",
-    },
-    {
-      id: 6,
-      name: "Look 06",
-      description: "An elegant composition of proportion, polish, and luxury.",
-      video: "/DO 6.mp4",
-    },
-    {
-      id: 7,
-      name: "Look 07",
-      description: "Crafted to feel cinematic from the first glance.",
-      video: "/DO 7.mp4",
-    },
-    {
-      id: 8,
-      name: "Look 08",
-      description: "Statement dressing with couture restraint and precision.",
-      video: "/DO 8.mp4",
-    },
-    {
-      id: 9,
-      name: "Look 09",
-      description: "A luxurious silhouette shaped for confidence and memory.",
-      video: "/DO 9.mp4",
-    },
-    {
-      id: 10,
-      name: "Look 10",
-      description: "Refined glamour interpreted through movement and finish.",
-      video: "/DO 10.mp4",
-    },
-    {
-      id: 11,
-      name: "Look 11",
-      description: "An editorial closing note in the language of couture.",
-      video: "/DO 11.mp4",
-    },
-  ]
+export default async function CollectionsPage() {
+  const collections = await getCollectionsCatalog()
 
   return (
     <div className="min-h-screen pt-32">
-      {/* Hero */}
       <section className="py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            className="text-center mb-16"
-          >
+        <div className="mx-auto max-w-7xl">
+          <div className="editorial-shell mb-12 px-6 py-12 text-center md:mb-16 md:px-12 md:py-14">
+            <p className="mb-4 font-sans text-xs uppercase tracking-[0.28em] text-burgundy">
+              Curated Media Library
+            </p>
             <h1 className="mb-6 font-serif text-5xl font-bold text-foreground md:text-7xl">
               The Collections
             </h1>
-            <p className="mx-auto max-w-2xl text-lg font-sans text-foreground/70">
-              A moving library of Dassah Oikos silhouettes, corsetry, and occasion dressing
-              captured in motion.
+            <p className="mx-auto max-w-3xl text-lg font-sans leading-relaxed text-foreground/70">
+              Discover each world through one signature image and one motion piece, then step into the full collection for the rest of the story.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { delay: 0.15 } } }}
-            className="mb-16 rounded-3xl border border-rosegold/25 bg-card/70 p-8 text-center"
-          >
+          <div className="editorial-card mb-12 p-6 text-center md:mb-16 md:p-8">
             <p className="font-sans text-lg text-foreground/75">
               Looking for more references and behind-the-scenes inspiration?
             </p>
@@ -114,38 +33,101 @@ const CollectionsPage = () => {
             >
               Explore More on Instagram
             </a>
-          </motion.div>
+          </div>
 
-          {/* Grid */}
-          <div className="grid md:grid-cols-2 gap-12">
-            {collections.map((collection, index) => (
-              <motion.div
-                key={collection.id}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { delay: index * 0.1 } } }}
-                className="group"
-              >
-                <div className="aspect-[4/5] rounded-3xl overflow-hidden mb-6">
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  >
-                    <source src={collection.video} type="video/mp4" />
-                  </video>
+          <div className="space-y-8 md:space-y-12">
+            {collections.map((collection) => (
+              <article key={collection.slug} className="editorial-shell overflow-hidden p-5 md:p-8">
+                <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+                  <div className="space-y-5">
+                    <p className="font-sans text-xs uppercase tracking-[0.26em] text-burgundy">
+                      {collection.eyebrow}
+                    </p>
+                    <h2 className="font-serif text-4xl font-bold text-foreground md:text-5xl">
+                      {collection.title}
+                    </h2>
+                    <p className="max-w-2xl font-sans leading-relaxed text-foreground/72">
+                      {collection.description}
+                    </p>
+
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div className="rounded-[1.5rem] border border-rosegold/15 bg-white/35 p-5">
+                        <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Emotional Pull</p>
+                        <p className="mt-3 font-sans leading-relaxed text-foreground/72">
+                          {collection.emotionalReason}
+                        </p>
+                      </div>
+                      <div className="rounded-[1.5rem] border border-rosegold/15 bg-white/35 p-5">
+                        <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Logical Appeal</p>
+                        <p className="mt-3 font-sans leading-relaxed text-foreground/72">
+                          {collection.logicalReason}
+                        </p>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/collections/${collection.slug}`}
+                      className="inline-flex w-full justify-center rounded-full border border-rosegold/30 bg-burgundy px-6 py-4 text-center font-sans text-[0.72rem] uppercase tracking-[0.22em] text-white transition-all hover:scale-105 hover:bg-burgundy/90 sm:w-auto sm:px-8"
+                    >
+                      See Collection
+                    </Link>
+                  </div>
+
+                  <div className="grid gap-5 md:grid-cols-2">
+                    <div className="editorial-card p-3">
+                      {collection.featuredImage ? (
+                        <div className="relative aspect-[4/5] overflow-hidden rounded-[1.35rem]">
+                          <Image
+                            src={collection.featuredImage.src}
+                            alt={collection.featuredImage.title}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 30vw"
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="relative flex aspect-[4/5] items-end overflow-hidden rounded-[1.35rem] bg-[linear-gradient(145deg,rgba(111,62,58,0.78),rgba(183,110,121,0.52),rgba(255,247,244,0.4))] p-6">
+                          <div>
+                            <p className="font-sans text-xs uppercase tracking-[0.24em] text-white/80">
+                              Featured Still
+                            </p>
+                            <h3 className="mt-3 font-serif text-4xl font-bold leading-tight text-white">
+                              {collection.title}
+                            </h3>
+                          </div>
+                        </div>
+                      )}
+                      <p className="px-2 pb-2 pt-4 font-serif text-2xl font-bold text-foreground">
+                        {collection.featuredImage ? collection.featuredImage.title : `${collection.title} Portrait`}
+                      </p>
+                      <p className="px-2 font-sans text-xs uppercase tracking-[0.2em] text-burgundy">
+                        Featured Image
+                      </p>
+                    </div>
+
+                    <div className="editorial-card p-3">
+                      <div className="relative aspect-[4/5] overflow-hidden rounded-[1.35rem]">
+                        <video
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          preload="metadata"
+                          className="h-full w-full object-cover"
+                        >
+                          <source src={collection.featuredVideo.src} type={collection.featuredVideo.mimeType} />
+                        </video>
+                      </div>
+                      <p className="px-2 pb-2 pt-4 font-serif text-2xl font-bold text-foreground">
+                        {collection.featuredVideo.title}
+                      </p>
+                      <p className="px-2 font-sans text-xs uppercase tracking-[0.2em] text-burgundy">
+                        Featured Motion
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="mb-2 font-serif text-2xl font-bold text-foreground">
-                  {collection.name}
-                </h3>
-                <p className="mb-4 font-sans text-foreground/70">
-                  {collection.description}
-                </p>
-                <p className="text-rosegold font-sans">Dassah Oikos in motion</p>
-              </motion.div>
+              </article>
             ))}
           </div>
         </div>
@@ -153,5 +135,3 @@ const CollectionsPage = () => {
     </div>
   )
 }
-
-export default CollectionsPage

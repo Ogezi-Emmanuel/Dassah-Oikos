@@ -41,25 +41,28 @@ const Navbar = () => {
     { name: "FAQ", href: "/faq" },
   ]
 
+  const useSolidNavbar = pathname !== "/" || isScrolled
+
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "border-b border-rosegold/15 bg-background/90 backdrop-blur-xl"
+        useSolidNavbar
+          ? "border-b border-rosegold/20 bg-[rgba(255,247,244,0.85)] backdrop-blur-2xl"
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4">
+      <div className="max-w-7xl mx-auto px-6 py-5">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <Image
-              src="/Dassah Oikos Logo.jpeg"
+              src="/Dassah Oikos Logo.png"
               alt="Dassah Oikos"
-              width={180}
-              height={56}
-              className="h-12 w-auto md:h-14"
+              width={220}
+              height={76}
+              sizes="(max-width: 768px) 160px, 220px"
+              className="h-10 w-auto md:h-14"
               priority
             />
           </Link>
@@ -71,8 +74,8 @@ const Navbar = () => {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleHashClick(e, link.href)}
-                className={`font-sans text-sm uppercase tracking-wide transition-colors ${
-                  isScrolled ? "text-foreground/75 hover:text-burgundy" : "text-white hover:text-rosegold"
+                className={`font-sans text-[0.72rem] uppercase tracking-[0.24em] transition-colors ${
+                  useSolidNavbar ? "text-foreground/80 hover:text-burgundy" : "text-white/90 hover:text-rosegold"
                 }`}
               >
                 {link.name}
@@ -81,7 +84,7 @@ const Navbar = () => {
             <Link
               href="/#booking"
               onClick={(e) => handleHashClick(e, "/#booking")}
-              className="bg-burgundy hover:bg-burgundy/90 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full border border-rosegold/30 transition-all hover:scale-105 font-sans text-xs md:text-sm whitespace-nowrap"
+              className="rounded-full border border-rosegold/30 bg-burgundy px-4 py-2.5 text-center font-sans text-[0.68rem] uppercase tracking-[0.18em] leading-tight text-white transition-all hover:scale-105 hover:bg-burgundy/90 md:px-6 md:text-[0.72rem] md:tracking-[0.22em]"
             >
               Request Consultation
             </Link>
@@ -90,7 +93,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`md:hidden ${isScrolled ? "text-foreground" : "text-white"}`}
+            className={`md:hidden ${useSolidNavbar ? "text-foreground" : "text-white"}`}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -120,7 +123,7 @@ const Navbar = () => {
               <Link
                 href="/#booking"
                 onClick={(e) => handleHashClick(e, "/#booking")}
-                className="bg-burgundy hover:bg-burgundy/90 text-white px-6 py-3 rounded-full border border-rosegold/30 transition-all text-center font-sans"
+                className="rounded-full border border-rosegold/30 bg-burgundy px-5 py-3 text-center font-sans text-sm leading-tight text-white transition-all hover:bg-burgundy/90"
               >
                 Request Consultation
               </Link>

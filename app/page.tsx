@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { useState, useRef } from "react"
 import {
@@ -20,49 +21,52 @@ const serviceOptions = [
     value: "consultation",
     label: "Request a Consultation",
     fee: "Complimentary",
-    description: "A complimentary first step to discuss your garment, event, and timeline.",
+    description: "A discovery conversation for clients who want to understand the right couture direction before committing.",
   },
   {
     value: "creative-director",
     label: "Request Private Consultation with the Creative Director",
-    fee: "Paid Session | ₦150,000",
-    description: "A paid strategy session focused on creative direction, styling depth, and couture planning.",
+    fee: "Paid Add-On | Aso Ebi ₦108,000 | Wedding ₦150,000",
+    description: "A premium route for Aso Ebi and Wedding clients who want direct creative direction, strategy, and styling clarity.",
   },
   {
     value: "personalized-sketch",
     label: "Request Personalized Sketch",
-    fee: "Paid Concept | ₦250,000",
-    description: "A paid sketch request for clients who want a custom visual concept before commissioning.",
+    fee: "Paid Concept | ₦100,000",
+    description: "A paid concept sketch service that is waived when the client proceeds with outfit creation through the brand.",
   },
 ] as const
 
-const garmentOptions = [
-  "Luxury Corsetry",
-  "Custom Bridal",
-  "Prom Dress",
-  "Occasion Wear",
+const categoryOptions = [
+  "Introduction",
+  "Aso Ebi",
+  "Wedding",
+  "Prom",
+  "Custom Dresses",
 ] as const
 
-const garmentPricing: Record<(typeof garmentOptions)[number], string[]> = {
-  "Luxury Corsetry": [
-    "₦1,200,000 - ₦1,800,000",
-    "₦1,800,000 - ₦2,500,000",
-    "₦2,500,000+",
+const privateConsultationEligibleOptions = [
+  "Aso Ebi",
+  "Wedding",
+] as const
+
+const pricingByCategory: Record<(typeof categoryOptions)[number], string[]> = {
+  Introduction: [
+    "₦400,000 - ₦500,000 (Without beadings)",
+    "₦600,000 - ₦900,000",
   ],
-  "Custom Bridal": [
-    "₦2,500,000 - ₦4,000,000",
-    "₦4,000,000 - ₦6,500,000",
-    "₦6,500,000+",
+  "Aso Ebi": [
+    "₦350,000 - ₦900,000",
+    "₦900,000 - ₦1,500,000",
   ],
-  "Prom Dress": [
-    "₦950,000 - ₦1,500,000",
-    "₦1,500,000 - ₦2,200,000",
-    "₦2,200,000+",
+  Wedding: [
+    "₦2,000,000 - ₦4,000,000",
   ],
-  "Occasion Wear": [
-    "₦1,000,000 - ₦1,600,000",
-    "₦1,600,000 - ₦2,400,000",
-    "₦2,400,000+",
+  Prom: [
+    "$1,500 - $5,000",
+  ],
+  "Custom Dresses": [
+    "₦2,000,000 - ₦3,000,000",
   ],
 }
 
@@ -99,19 +103,43 @@ export default function Home() {
     bookingRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
+  const availableCategoryOptions =
+    formData.serviceType === "creative-director"
+      ? privateConsultationEligibleOptions
+      : categoryOptions
+
+  const getServiceFee = (
+    serviceType: (typeof serviceOptions)[number]["value"],
+    category: string,
+  ) => {
+    if (serviceType === "consultation") {
+      return "Complimentary"
+    }
+
+    if (serviceType === "creative-director") {
+      if (category === "Aso Ebi") return "₦108,000"
+      if (category === "Wedding") return "₦150,000"
+
+      return "Select Aso Ebi or Wedding to view the consultation fee"
+    }
+
+    return "₦100,000"
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const selectedService = serviceOptions.find((service) => service.value === formData.serviceType) ?? serviceOptions[0]
+    const selectedServiceFee = getServiceFee(formData.serviceType, formData.garmentType)
 
     const messageSections = [
       "*NEW DASSAH OIKOS REQUEST*",
       "",
       `Service Requested: ${selectedService.label}`,
-      `Service Fee: ${selectedService.fee}`,
+      `Service Fee: ${selectedServiceFee}`,
       `Name: ${formData.fullName}`,
       `Phone: ${formData.phoneNumber}`,
       `Location: ${formData.location}`,
-      `Garment Type: ${formData.garmentType}`,
+      `Collection Category: ${formData.garmentType}`,
       `Target Date: ${formData.eventDate}`,
       `Investment Range: ${formData.budget}`,
       "",
@@ -143,10 +171,10 @@ export default function Home() {
   }
 
   const budgetOptions = formData.garmentType
-    ? garmentPricing[formData.garmentType as (typeof garmentOptions)[number]]
+    ? pricingByCategory[formData.garmentType as (typeof categoryOptions)[number]]
     : []
 
-  const handleGarmentChange = (value: string) => {
+  const handleCategoryChange = (value: string) => {
     setFormData((prev) => ({
       ...prev,
       garmentType: value,
@@ -163,10 +191,13 @@ export default function Home() {
       sketchFormat: "",
       inspirationLink: "",
       designBrief: "",
+      garmentType: "",
+      budget: "",
     }))
   }
 
   const selectedService = serviceOptions.find((service) => service.value === formData.serviceType) ?? serviceOptions[0]
+  const selectedServiceFee = getServiceFee(formData.serviceType, formData.garmentType)
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
@@ -176,47 +207,131 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <ScrollHandler />
-      {/* Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden">
+      <section className="relative min-h-screen overflow-hidden">
         <video
           autoPlay
           loop
           muted
           playsInline
+          preload="metadata"
           className="absolute inset-0 h-full w-full object-cover"
         >
           <source src="/DO Hero.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2f1614]/35 via-[#6d4c48]/20 to-background/90" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(14,8,8,0.45),rgba(14,8,8,0.35),rgba(14,8,8,0.72))]" />
+
+        <div className="relative z-10 flex min-h-screen items-center justify-center px-5 pb-14 pt-28 text-center sm:px-6 sm:pb-16 sm:pt-32">
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            className="max-w-4xl"
+            className="mx-auto max-w-4xl"
           >
-            <motion.h1
-              className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight"
-              variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2 } } }}
+            <motion.p
+              className="mb-5 font-sans text-[0.68rem] uppercase tracking-[0.28em] text-white/85 sm:text-xs sm:tracking-[0.34em]"
+              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}
             >
-              Masterpieces in Corsetry &amp; Couture.
+              Crafted in Lagos | Worn for Unforgettable Moments
+            </motion.p>
+            <motion.h1
+              className="mb-6 font-serif text-[2.6rem] font-bold leading-[0.95] text-white sm:text-5xl md:text-7xl lg:text-8xl"
+              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.15 } } }}
+            >
+              Dresses that make a woman feel chosen, certain, and unforgettable.
             </motion.h1>
             <motion.p
-              className="text-xl md:text-2xl text-gray-200 mb-10 font-sans"
-              variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.4 } } }}
+              className="mx-auto mb-10 max-w-2xl font-sans text-[0.98rem] leading-relaxed text-white/85 md:text-xl"
+              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.3 } } }}
             >
-              Bespoke Bridal, Prom, and Occasion Wear. Crafted in Lagos, Shipped Worldwide.
+              Dassah Oikos creates bespoke Aso Ebi, wedding, prom, and custom occasion dresses that flatter the body beautifully, photograph elegantly, and stay memorable long after the event.
             </motion.p>
             <motion.div
-              variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.6 } } }}
+              className="flex flex-col items-center justify-center gap-4 sm:w-full md:flex-row"
+              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.45 } } }}
             >
               <Button
                 onClick={handleScrollToBooking}
-                className="bg-burgundy hover:bg-burgundy/90 text-white text-lg px-10 py-6 h-auto rounded-full border border-rosegold/30 shadow-lg shadow-burgundy/20 transition-all hover:scale-105"
+                className="h-auto w-full rounded-full border border-rosegold/30 bg-burgundy px-6 py-5 text-center font-sans text-[0.72rem] uppercase tracking-[0.18em] leading-tight text-white shadow-lg shadow-burgundy/20 transition-all hover:scale-105 hover:bg-burgundy/90 sm:w-auto sm:px-10 sm:py-6 sm:text-sm sm:tracking-[0.24em]"
               >
-                Commission a Masterpiece
+                Book a Consultation
               </Button>
+              <a
+                href="/collections"
+                className="w-full rounded-full border border-white/30 bg-white/10 px-6 py-4 text-center font-sans text-[0.72rem] uppercase tracking-[0.18em] leading-tight text-white transition-all hover:bg-white/16 sm:w-auto sm:px-8 sm:text-sm sm:tracking-[0.22em]"
+              >
+                View Collections
+              </a>
             </motion.div>
+            <motion.div
+              className="mt-10 flex flex-wrap items-center justify-center gap-3"
+              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.6 } } }}
+            >
+              {[
+                "Made to flatter your body",
+                "Designed for major moments",
+                "Crafted with couture precision",
+              ].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-white/25 bg-white/10 px-4 py-2 font-sans text-[0.68rem] uppercase tracking-[0.18em] text-white/90"
+                >
+                  {item}
+                </span>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20 md:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="editorial-card p-3"
+          >
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.4rem]">
+              <Image
+                src="/Custom Reception dress 1.jpg"
+                alt="Dassah Oikos custom occasion dress"
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { duration: 0.8, delay: 0.15 } } }}
+            className="editorial-shell p-6 md:p-10"
+          >
+            <p className="font-sans text-xs uppercase tracking-[0.26em] text-burgundy">
+              Why Women Choose Dassah Oikos
+            </p>
+            <h2 className="mt-4 font-serif text-4xl font-bold text-foreground md:text-5xl">
+              Beauty that feels emotional, and quality that makes sense.
+            </h2>
+            <p className="mt-6 max-w-2xl font-sans leading-relaxed text-foreground/72">
+              The right dress does more than look beautiful. It lets a woman move with confidence, trust her silhouette, and enjoy her moment without second-guessing anything.
+            </p>
+
+            <div className="mt-8 space-y-4">
+              {[
+                "It is designed to highlight the body in a soft, elegant, and intentional way.",
+                "It is made for the specific event, so the dress feels right for the room, the photographs, and the memory.",
+                "It is crafted with structure and finish, so it does not only impress at first glance, it holds up beautifully through the day.",
+              ].map((point, index) => (
+                <div key={point} className="rounded-[1.4rem] border border-rosegold/15 bg-white/35 p-5">
+                  <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">0{index + 1}</p>
+                  <p className="mt-3 font-sans leading-relaxed text-foreground/72">{point}</p>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
@@ -258,7 +373,7 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { duration: 0.8, delay: index * 0.2 } } }}
-                className="relative rounded-2xl border border-border bg-card p-8 transition-all hover:border-rosegold/50 hover:shadow-xl hover:shadow-rosegold/10"
+                className="editorial-card relative p-8 transition-all hover:border-rosegold/50 hover:shadow-xl hover:shadow-rosegold/10"
               >
                 <div className="text-rosegold font-serif text-6xl font-bold mb-4 opacity-30">
                   {item.step}
@@ -276,7 +391,7 @@ export default function Home() {
       </section>
 
       {/* VIP Commission Section */}
-      <section id="booking" ref={bookingRef} className="py-24 px-6 bg-card/70">
+      <section id="booking" ref={bookingRef} className="bg-card/40 py-24 px-6">
         <div className="max-w-2xl mx-auto">
           <motion.h2
             initial="hidden"
@@ -294,8 +409,35 @@ export default function Home() {
             variants={fadeInUp}
             className="mx-auto mb-12 max-w-xl text-center font-sans text-lg text-foreground/70"
           >
-            Choose the service that matches your stage. Complimentary discovery calls and paid premium requests each have their own tailored process.
+            Choose the consultation path that fits your stage. Pricing appears inside this section based on the service and category you select.
           </motion.p>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="editorial-shell mb-10 grid gap-4 p-5 md:grid-cols-3 md:p-6"
+          >
+            <div>
+              <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Consultation</p>
+              <p className="mt-3 font-sans leading-relaxed text-foreground/72">
+                Your first consultation is complimentary and helps us understand the right direction for your dress.
+              </p>
+            </div>
+            <div>
+              <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Private Direction</p>
+              <p className="mt-3 font-sans leading-relaxed text-foreground/72">
+                Private consultation is available for Aso Ebi and Wedding clients, with the fee shown after you choose the category.
+              </p>
+            </div>
+            <div>
+              <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Sketch Service</p>
+              <p className="mt-3 font-sans leading-relaxed text-foreground/72">
+                Personalized sketch requests are ₦100,000 and the fee is waived when you proceed with the outfit through the brand.
+              </p>
+            </div>
+          </motion.div>
 
           <motion.form
             initial="hidden"
@@ -303,7 +445,7 @@ export default function Home() {
             viewport={{ once: true }}
             variants={fadeInUp}
             onSubmit={handleSubmit}
-            className="space-y-6"
+            className="editorial-shell space-y-6 p-5 md:p-8"
           >
             <div className="space-y-4">
               <Label className="text-foreground font-sans">Choose Your Experience</Label>
@@ -316,17 +458,17 @@ export default function Home() {
                       key={service.value}
                       type="button"
                       onClick={() => handleServiceChange(service.value)}
-                      className={`rounded-2xl border p-5 text-left transition-all ${
+                      className={`w-full rounded-2xl border p-4 text-left transition-all sm:p-5 ${
                         isActive
                           ? "border-rosegold bg-rosegold/10 shadow-lg shadow-rosegold/10"
                           : "border-border bg-background/70 hover:border-rosegold/40"
                       }`}
                     >
-                      <div className="mb-2 font-serif text-lg text-foreground">{service.label}</div>
+                      <div className="mb-2 font-serif text-base leading-tight text-foreground sm:text-lg">{service.label}</div>
                       <p className="mb-3 text-sm font-sans leading-relaxed text-foreground/70">
                         {service.description}
                       </p>
-                      <p className="text-xs font-sans uppercase tracking-[0.2em] text-burgundy">{service.fee}</p>
+                      <p className="text-[0.68rem] font-sans uppercase tracking-[0.16em] text-burgundy sm:text-xs sm:tracking-[0.2em]">{service.fee}</p>
                     </button>
                   )
                 })}
@@ -336,13 +478,27 @@ export default function Home() {
             <div className="rounded-2xl border border-rosegold/25 bg-background/80 p-5">
               <p className="font-serif text-xl text-foreground">{selectedService.label}</p>
               <p className="mt-2 font-sans text-sm uppercase tracking-[0.2em] text-burgundy">
-                {selectedService.fee}
+                {selectedServiceFee}
               </p>
               <p className="mt-3 font-sans text-sm text-foreground/70">
                 {selectedService.value === "consultation"
-                  ? "This first conversation is complimentary and helps us understand your couture needs."
-                  : "This is a paid premium request. Once you submit, payment guidance will be shared through WhatsApp before the service is confirmed."}
+                  ? "This first conversation is complimentary and helps us understand your category, timeline, and commission fit."
+                  : selectedService.value === "creative-director"
+                    ? "Private consultations are priced for Aso Ebi and Wedding clients only, based on the selected category."
+                    : "Sketch requests are charged at ₦100,000 and the fee is waived if you proceed with outfit creation through the brand."}
               </p>
+              {budgetOptions.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {budgetOptions.map((budget) => (
+                    <span
+                      key={budget}
+                      className="rounded-full border border-rosegold/20 bg-rosegold/10 px-3 py-2 font-sans text-[0.7rem] uppercase tracking-[0.16em] text-burgundy"
+                    >
+                      {budget}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -383,20 +539,20 @@ export default function Home() {
 
             <div className="space-y-2">
               <Label htmlFor="garmentType" className="text-foreground font-sans">
-                {formData.serviceType === "personalized-sketch" ? "What should we sketch?" : "Garment Type"}
+                {formData.serviceType === "personalized-sketch" ? "What should we sketch?" : "Collection Category"}
               </Label>
               <Select
                 value={formData.garmentType}
-                onValueChange={handleGarmentChange}
+                onValueChange={handleCategoryChange}
                 required
               >
                 <SelectTrigger id="garmentType" className="h-12 border-border bg-background text-foreground">
-                  <SelectValue placeholder="Select garment type" />
+                  <SelectValue placeholder="Select collection category" />
                 </SelectTrigger>
                 <SelectContent className="border-border bg-card text-foreground">
-                  {garmentOptions.map((garment) => (
-                    <SelectItem key={garment} value={garment}>
-                      {garment}
+                  {availableCategoryOptions.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -428,7 +584,7 @@ export default function Home() {
                 required
               >
                 <SelectTrigger id="budget" className="h-12 border-border bg-background text-foreground">
-                  <SelectValue placeholder={formData.garmentType ? "Select investment range" : "Select garment type first"} />
+                  <SelectValue placeholder={formData.garmentType ? "Select investment range" : "Select category first"} />
                 </SelectTrigger>
                 <SelectContent className="border-border bg-card text-foreground">
                   {budgetOptions.map((budget) => (
@@ -439,7 +595,7 @@ export default function Home() {
                 </SelectContent>
               </Select>
               <p className="text-sm font-sans text-foreground/65">
-                Pricing is tailored to the garment selected and the level of detailing required.
+                Pricing is tied to the selected category and refined further by finishing, embellishment, and structure.
               </p>
             </div>
 
@@ -555,7 +711,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 px-6 bg-card/60">
+      <section className="bg-card/40 py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.h2
             initial="hidden"
@@ -567,7 +723,7 @@ export default function Home() {
             What Our Clients Say
           </motion.h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid gap-8 md:grid-cols-3">
             {[
               {
                 name: "Amara Okafor",
@@ -591,7 +747,7 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { delay: index * 0.1 } } }}
-                className="rounded-2xl border border-border bg-background/80 p-8 transition-all hover:border-rosegold/30"
+                className="editorial-card p-8 transition-all hover:border-rosegold/30"
               >
                 <div className="text-rosegold mb-4 text-2xl">★★★★★</div>
                 <p className="mb-6 font-sans italic leading-relaxed text-foreground/75">

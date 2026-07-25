@@ -46,6 +46,164 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: radial-gradient(circle at top, rgba(255, 255, 255, 0.35), transparent 35%);
+    background-image:
+      radial-gradient(circle at top, rgba(255, 255, 255, 0.28), transparent 28%),
+      linear-gradient(180deg, rgba(255, 247, 244, 0.9) 0%, rgba(243, 223, 215, 0.96) 48%, rgba(236, 210, 200, 0.94) 100%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: rgba(183, 110, 121, 0.28);
+    color: #311b18;
+  }
+}
+
+@layer components {
+  .editorial-shell {
+    @apply rounded-[2rem] border border-white/40 bg-[rgba(255,247,244,0.62)] shadow-[0_24px_90px_rgba(111,62,58,0.10)] backdrop-blur-xl;
+  }
+
+  .editorial-card {
+    @apply rounded-[1.75rem] border border-white/35 bg-[rgba(255,247,244,0.72)] shadow-[0_18px_60px_rgba(111,62,58,0.08)] backdrop-blur-md;
+  }
+
+  .background-orb {
+    @apply absolute rounded-full blur-3xl;
+    animation: driftGlow 18s ease-in-out infinite;
+  }
+
+  .background-orb-one {
+    width: 32rem;
+    height: 32rem;
+    left: -8rem;
+    top: 8rem;
+    background: radial-gradient(circle, rgba(183, 110, 121, 0.22), transparent 68%);
+  }
+
+  .background-orb-two {
+    width: 26rem;
+    height: 26rem;
+    right: -4rem;
+    top: 22rem;
+    animation-delay: -6s;
+    background: radial-gradient(circle, rgba(111, 62, 58, 0.16), transparent 70%);
+  }
+
+  .background-orb-three {
+    width: 24rem;
+    height: 24rem;
+    left: 38%;
+    bottom: -6rem;
+    animation-delay: -11s;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 72%);
+  }
+
+  .background-sweep {
+    @apply absolute rounded-full blur-3xl;
+    animation: sweepFloat 22s ease-in-out infinite;
+  }
+
+  .background-sweep-one {
+    width: 54rem;
+    height: 18rem;
+    left: -10rem;
+    top: 14rem;
+    --sweep-rotate: -14deg;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.06), rgba(183, 110, 121, 0.12), transparent 70%);
+  }
+
+  .background-sweep-two {
+    width: 46rem;
+    height: 16rem;
+    right: -8rem;
+    bottom: 9rem;
+    --sweep-rotate: 18deg;
+    animation-delay: -9s;
+    background: linear-gradient(90deg, rgba(111, 62, 58, 0.06), rgba(255, 255, 255, 0.08), transparent 72%);
+  }
+
+  .background-veil {
+    @apply absolute inset-0;
+    background:
+      radial-gradient(circle at 20% 22%, rgba(255, 255, 255, 0.22), transparent 0 24%),
+      radial-gradient(circle at 82% 18%, rgba(183, 110, 121, 0.1), transparent 0 18%),
+      radial-gradient(circle at 64% 78%, rgba(111, 62, 58, 0.08), transparent 0 20%);
+    opacity: 0.9;
+  }
+
+  .background-lattice {
+    @apply absolute inset-0;
+    background-image:
+      linear-gradient(115deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0) 28%),
+      repeating-linear-gradient(
+        115deg,
+        rgba(255, 255, 255, 0.05) 0,
+        rgba(255, 255, 255, 0.05) 1px,
+        transparent 1px,
+        transparent 38px
+      );
+    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.95) 18%, rgba(0, 0, 0, 0.95) 82%, transparent);
+    opacity: 0.22;
+    animation: latticeShift 28s linear infinite;
+  }
+
+  .background-contours {
+    @apply absolute inset-0;
+    background-image:
+      radial-gradient(ellipse at center, transparent 58%, rgba(111, 62, 58, 0.06) 59%, transparent 61%),
+      radial-gradient(ellipse at center, transparent 66%, rgba(255, 255, 255, 0.08) 67%, transparent 69%);
+    background-size: 46rem 24rem, 52rem 28rem;
+    background-position: 18% 12%, 86% 74%;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    animation: contourDrift 24s ease-in-out infinite;
+  }
+}
+
+@keyframes driftGlow {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2.5rem, -1.5rem, 0) scale(1.06);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes latticeShift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(1.8rem, -1rem, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes contourDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-1.4rem, 1rem, 0) scale(1.03);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes sweepFloat {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(var(--sweep-rotate));
+  }
+  50% {
+    transform: translate3d(1.5rem, -1rem, 0) rotate(calc(var(--sweep-rotate) + 2deg));
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--sweep-rotate));
   }
 }

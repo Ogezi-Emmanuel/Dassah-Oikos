@@ -25,22 +25,24 @@ const AboutPage = () => {
             <div className="w-32 h-1 bg-gradient-to-r from-burgundy to-rosegold mx-auto"></div>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid items-center gap-16 md:grid-cols-2">
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeInUp}
-              className="aspect-square rounded-3xl overflow-hidden"
+              className="editorial-shell overflow-hidden p-4"
             >
-              <Image
-                src="/Damilola.jpeg"
-                alt="Damilola, founder and creative force behind Dassah Oikos"
-                width={1200}
-                height={1200}
-                className="w-full h-full object-cover"
-                priority
-              />
+              <div className="relative aspect-square overflow-hidden rounded-[1.6rem]">
+                <Image
+                  src="/Damilola.jpeg"
+                  alt="Damilola, founder and creative force behind Dassah Oikos"
+                  width={1200}
+                  height={1200}
+                  className="w-full h-full object-cover"
+                  priority
+                />
+              </div>
             </motion.div>
 
             <motion.div
@@ -55,7 +57,11 @@ const AboutPage = () => {
                   transition: { duration: 0.8, delay: 0.2 }
                 }
               }}
+              className="editorial-shell p-8 md:p-10"
             >
+              <p className="mb-4 font-sans text-xs uppercase tracking-[0.28em] text-burgundy">
+                Founder Vision
+              </p>
               <h2 className="mb-8 font-serif text-3xl font-bold text-foreground md:text-4xl">
                 The Dream of Dassah Oikos
               </h2>
@@ -81,7 +87,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      <section className="bg-card/40 py-24 px-6">
+      <section className="bg-card/25 py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -122,7 +128,7 @@ const AboutPage = () => {
                     transition: { duration: 0.8, delay: index * 0.2 }
                   }
                 }}
-                className="bg-card border border-border rounded-2xl p-10 hover:border-rosegold/30 transition-all hover:shadow-xl"
+                className="editorial-card p-10 transition-all hover:border-rosegold/30 hover:shadow-xl"
               >
                 <div className="text-5xl text-rosegold mb-6 font-serif">
                   0{index + 1}
@@ -176,7 +182,7 @@ const AboutPage = () => {
                     transition: { duration: 0.8, delay: index * 0.2 },
                   },
                 }}
-                className="overflow-hidden rounded-2xl border border-border bg-card/40"
+                className="editorial-card overflow-hidden"
               >
                 <div className="aspect-[4/3] overflow-hidden">
                   <video
