@@ -19,7 +19,7 @@ const FAQPage = () => {
     },
     {
       question: "What is the price range for your couture pieces?",
-      answer: "Our bespoke pieces start at ₦250,000 and can go up depending on materials and complexity. During your consultation, we'll provide a detailed quote based on your vision.",
+      answer: "Our bespoke pieces start at ₦350,000 and can go up depending on materials and complexity. During your consultation, we'll provide a detailed quote based on your vision.",
     },
     {
       question: "Do you ship internationally?",

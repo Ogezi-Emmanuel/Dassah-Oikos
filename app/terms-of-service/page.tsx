@@ -57,12 +57,12 @@ const TermsOfServicePage = () => {
               3. Deposits & Payments
             </h2>
             <p className="mb-4 font-sans leading-relaxed text-foreground/75">
-              A 50% non-refundable deposit is required to begin work on any custom piece.
+              A 70% non-refundable deposit is required to begin work on any custom piece.
               The remaining balance is due before the final fitting or delivery.
             </p>
             <ul className="ml-4 list-inside list-disc space-y-2 font-sans text-foreground/75">
               <li>Deposits secure your spot in our production schedule</li>
-              <li>All prices are in Nigerian Naira (₦)</li>
+              <li>Prices are listed in Nigerian Naira (₦) unless otherwise stated (e.g., Prom pieces may be quoted in USD)</li>
               <li>Prices subject to change without notice</li>
             </ul>
           </section>
