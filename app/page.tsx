@@ -233,66 +233,43 @@ export default function Home() {
         >
           <source src="/DO Hero.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(14,8,8,0.45),rgba(14,8,8,0.35),rgba(14,8,8,0.72))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(14,8,8,0.24),rgba(14,8,8,0.18),rgba(14,8,8,0.52))]" />
 
-        <div className="relative z-10 flex min-h-screen items-center justify-center px-5 pb-14 pt-28 text-center sm:px-6 sm:pb-16 sm:pt-32">
+        <div className="relative z-10 flex min-h-screen items-center justify-center px-5 pb-20 pt-32 text-center sm:px-6 sm:pb-24 sm:pt-36">
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            className="mx-auto max-w-4xl"
+            className="mx-auto max-w-3xl translate-y-6 sm:translate-y-10"
           >
-            <motion.p
-              className="mb-5 font-sans text-[0.68rem] uppercase tracking-[0.28em] text-white/85 sm:text-xs sm:tracking-[0.34em]"
-              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}
-            >
-              Crafted in Lagos | Worn for Unforgettable Moments
-            </motion.p>
             <motion.h1
-              className="mb-6 font-serif text-[2.6rem] font-bold leading-[0.95] text-white sm:text-5xl md:text-7xl lg:text-8xl"
+              className="mb-5 font-serif text-[2.6rem] font-bold leading-[0.95] text-white [text-shadow:0_10px_30px_rgba(0,0,0,0.35)] sm:text-5xl md:text-7xl lg:text-8xl"
               variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.15 } } }}
             >
-              Dresses that make a woman feel chosen, certain, and unforgettable.
+              Couture for unforgettable entrances.
             </motion.h1>
             <motion.p
-              className="mx-auto mb-10 max-w-2xl font-sans text-[0.98rem] leading-relaxed text-white/85 md:text-xl"
+              className="mx-auto mb-9 max-w-fit rounded-full border border-white/18 bg-black/16 px-5 py-3 font-sans text-[0.9rem] leading-relaxed text-white shadow-[0_12px_34px_rgba(0,0,0,0.22)] backdrop-blur-[6px] md:text-base"
               variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.3 } } }}
             >
-              Dassah Oikos creates bespoke Aso Ebi, wedding, prom, and custom occasion dresses that flatter the body beautifully, photograph elegantly, and stay memorable long after the event.
+              Bespoke dresses shaped with elegance, structure, and presence.
             </motion.p>
             <motion.div
-              className="flex flex-col items-center justify-center gap-4 sm:w-full md:flex-row"
+              className="flex flex-col items-center justify-center gap-3 sm:w-full md:flex-row"
               variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.45 } } }}
             >
               <Button
                 onClick={handleScrollToBooking}
-                className="h-auto w-full rounded-full border border-rosegold/30 bg-burgundy px-6 py-5 text-center font-sans text-[0.72rem] uppercase tracking-[0.18em] leading-tight text-white shadow-lg shadow-burgundy/20 transition-all hover:scale-105 hover:bg-burgundy/90 sm:w-auto sm:px-10 sm:py-6 sm:text-sm sm:tracking-[0.24em]"
+                className="h-auto w-full rounded-full border border-rosegold/35 bg-burgundy/92 px-6 py-4 text-center font-sans text-[0.72rem] uppercase tracking-[0.18em] leading-tight text-white shadow-[0_16px_40px_rgba(97,39,44,0.22)] transition-all hover:scale-[1.02] hover:bg-burgundy sm:w-auto sm:min-w-[15rem] sm:px-9 sm:py-5 sm:text-[0.78rem] sm:tracking-[0.22em]"
               >
                 Book a Consultation
               </Button>
               <a
                 href="/collections"
-                className="w-full rounded-full border border-white/30 bg-white/10 px-6 py-4 text-center font-sans text-[0.72rem] uppercase tracking-[0.18em] leading-tight text-white transition-all hover:bg-white/16 sm:w-auto sm:px-8 sm:text-sm sm:tracking-[0.22em]"
+                className="w-full rounded-full border border-white/26 bg-white/8 px-6 py-4 text-center font-sans text-[0.72rem] uppercase tracking-[0.18em] leading-tight text-white backdrop-blur-[4px] transition-all hover:bg-white/14 sm:w-auto sm:min-w-[13rem] sm:px-8 sm:text-[0.78rem] sm:tracking-[0.2em]"
               >
                 View Collections
               </a>
-            </motion.div>
-            <motion.div
-              className="mt-10 flex flex-wrap items-center justify-center gap-3"
-              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.6 } } }}
-            >
-              {[
-                "Made to flatter your body",
-                "Designed for major moments",
-                "Crafted with couture precision",
-              ].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-white/25 bg-white/10 px-4 py-2 font-sans text-[0.68rem] uppercase tracking-[0.18em] text-white/90"
-                >
-                  {item}
-                </span>
-              ))}
             </motion.div>
           </motion.div>
         </div>
