@@ -180,16 +180,6 @@ const Footer = () => {
           <p className="mt-3 font-sans text-sm text-foreground/60">
             Crafted in Lagos 🇳🇬 · Delivered Worldwide 🌍 · Engineered for Digital Sovereignty
           </p>
-          <p className="mt-3 font-sans text-sm text-foreground/60">
-            <a
-              href="https://emmanuelogezi.cv"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-rosegold"
-            >
-              Engineered by Emmanuel Ogezi
-            </a>
-          </p>
         </div>
       </div>
     </footer>
