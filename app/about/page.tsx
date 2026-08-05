@@ -26,7 +26,7 @@ const AboutPage = () => {
               The Creative Director
             </h1>
             <p className="mx-auto max-w-2xl font-sans text-lg leading-relaxed text-foreground/70">
-              The woman behind Dassah Oikos shapes each commission with instinct, structure, and a deeply feminine understanding of what a remarkable dress should do.
+              <span className="font-semibold text-foreground">Damilola Haddasah Obisesan</span>, the woman behind Dassah Oikos, shapes each commission with instinct, structure, and a deeply feminine understanding of what a remarkable dress should do.
             </p>
             <div className="w-32 h-1 bg-gradient-to-r from-burgundy to-rosegold mx-auto"></div>
           </motion.div>
@@ -72,7 +72,7 @@ const AboutPage = () => {
                 The Dream of Dassah Oikos
               </h2>
               <p className="mb-6 text-lg font-sans leading-relaxed text-foreground/75">
-                Dassah Oikos was built from a sincere love for craftsmanship, beauty, and the quiet transformation that happens when a woman wears something made with intention. What began as fascination became discipline, and that discipline matured into a couture language rooted in refinement, femininity, and care.
+                Founded by <span className="font-semibold text-foreground">Damilola Haddasah Obisesan</span>, Dassah Oikos was built from a sincere love for craftsmanship, beauty, and the quiet transformation that happens when a woman wears something made with intention. What began as fascination became discipline, and that discipline matured into a couture language rooted in refinement, femininity, and care.
               </p>
               <p className="mb-6 text-lg font-sans leading-relaxed text-foreground/75">
                 Over time, that passion was strengthened through training, repetition, and an uncompromising respect for finish. Every piece is approached with the belief that couture should feel considered, flattering, and emotionally right for the woman wearing it.

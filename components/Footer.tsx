@@ -8,9 +8,10 @@ const Footer = () => {
   return (
     <footer className="border-t border-white/30 bg-[rgba(255,247,244,0.72)] px-6 pb-8 pt-16 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-12 flex flex-col items-center justify-between gap-8 md:flex-row">
-          {/* Brand */}
-          <div className="text-center md:text-left">
+        {/* 3-Column Layout - utilizes middle space on laptop */}
+        <div className="mb-12 grid gap-10 md:grid-cols-3 md:items-start md:gap-8 lg:gap-16">
+          {/* COLUMN 1: Brand */}
+          <div>
             <p className="mb-3 font-sans text-[0.72rem] uppercase tracking-[0.28em] text-burgundy">
               Couture House Based in Lagos
             </p>
@@ -24,67 +25,145 @@ const Footer = () => {
                 className="h-16 w-auto"
               />
             </Link>
-            <p className="mb-6 max-w-md font-sans leading-relaxed text-foreground/70">
-              Crafted in Lagos, Delivered Worldwide
+            <p className="mb-6 max-w-sm font-sans leading-relaxed text-foreground/70">
+              Bespoke Bridal, Prom, and Occasion Wear. Crafted in Lagos with love, delivered worldwide with pride.
             </p>
-            <div className="flex justify-center md:justify-start gap-4">
+            <div className="flex gap-4">
               <a
                 href="https://www.instagram.com/d.a.s.s.a.h_/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-foreground/70 transition-colors hover:text-rosegold"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-rosegold/20 bg-white/50 text-foreground/70 transition-all hover:bg-burgundy hover:text-white hover:border-burgundy"
                 aria-label="Instagram"
               >
-                <Instagram size={24} />
+                <Instagram size={18} />
               </a>
             </div>
           </div>
 
-          {/* Contact */}
-          <div className="text-center md:text-right">
-            <ul className="space-y-3 font-sans">
-              <li className="flex items-center justify-center gap-2 text-foreground/70 md:justify-end">
-                <MapPin size={16} className="text-rosegold" />
-                <span>Lagos, Nigeria</span>
+          {/* COLUMN 2: Quick Links + Collections (MIDDLE - fills empty space) */}
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-1">
+            <div>
+              <p className="mb-5 font-sans text-[0.72rem] uppercase tracking-[0.28em] text-burgundy">
+                Explore
+              </p>
+              <ul className="space-y-3 font-sans">
+                <li>
+                  <Link href="/" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    About The House
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/the-house" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    Ethos &amp; Stories
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/collections" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    Collections
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/testimonials" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    Client Stories
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/faq" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    FAQ
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p className="mb-5 font-sans text-[0.72rem] uppercase tracking-[0.28em] text-burgundy">
+                Collections
+              </p>
+              <ul className="space-y-3 font-sans">
+                <li>
+                  <Link href="/collections" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    Custom Bridal
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/collections" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    Aso Ebi Couture
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/collections" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    Luxury Corsetry
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/collections" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    Prom &amp; Red Carpet
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/collections" className="text-foreground/75 transition-colors hover:text-rosegold">
+                    Occasion Wear
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* COLUMN 3: Contact */}
+          <div>
+            <p className="mb-5 font-sans text-[0.72rem] uppercase tracking-[0.28em] text-burgundy">
+              Begin Your Journey
+            </p>
+            <ul className="space-y-5 font-sans">
+              <li className="flex items-start gap-3">
+                <MapPin size={18} className="mt-0.5 shrink-0 text-rosegold" />
+                <span className="text-foreground/75">
+                  Studio in Lagos, Nigeria
+                  <br />
+                  <span className="text-foreground/55 text-sm">Worldwide Orders Welcomed</span>
+                </span>
               </li>
-              <li className="flex items-center justify-center gap-2 text-foreground/70 md:justify-end">
-                <Mail size={16} className="text-rosegold" />
+              <li className="flex items-start gap-3">
+                <Mail size={18} className="mt-0.5 shrink-0 text-rosegold" />
                 <a
                   href="mailto:bookings@dassahoikos.com"
-                  className="hover:text-rosegold transition-colors"
+                  className="text-foreground/75 transition-colors hover:text-rosegold break-all"
                 >
                   bookings@dassahoikos.com
                 </a>
               </li>
-              <li className="flex items-center justify-center gap-2 text-foreground/70 md:justify-end">
-                <Phone size={16} className="text-rosegold" />
+              <li className="flex items-start gap-3">
+                <Phone size={18} className="mt-0.5 shrink-0 text-rosegold" />
                 <a
                   href="https://api.whatsapp.com/send?phone=2348132098926"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-rosegold transition-colors"
+                  className="text-foreground/75 transition-colors hover:text-rosegold"
                 >
                   +234 813 209 8926
+                  <br />
+                  <span className="text-foreground/55 text-sm">WhatsApp Preferred</span>
                 </a>
               </li>
             </ul>
+            <div className="mt-8">
+              <Link
+                href="/#booking"
+                className="inline-flex w-full justify-center rounded-full border border-rosegold/30 bg-burgundy px-8 py-4 text-center font-sans text-[0.72rem] uppercase tracking-[0.22em] text-white transition-all hover:scale-[1.02] hover:bg-burgundy/90"
+              >
+                Request Consultation
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Links */}
-        <div className="mb-8 flex flex-wrap justify-center gap-8 border-t border-white/30 pt-8">
-          <Link href="/" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
-            Home
-          </Link>
-          <Link href="/about" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
-            About
-          </Link>
-          <Link href="/collections" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
-            Collections
-          </Link>
-          <Link href="/faq" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
-            FAQ
-          </Link>
+        {/* Secondary Links + Legal */}
+        <div className="mb-8 flex flex-wrap justify-center gap-x-8 gap-y-4 border-t border-white/30 pt-8">
           <Link href="/privacy-policy" className="font-sans text-[0.78rem] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-rosegold">
             Privacy Policy
           </Link>
@@ -93,19 +172,20 @@ const Footer = () => {
           </Link>
         </div>
 
+        {/* Copyright & Credits */}
         <div className="text-center">
           <p className="font-sans text-sm text-foreground/60">
-            © 2026 DASSAH OÍKOS. All rights reserved.
+            © 2026 DASSAH OÍKOS. All rights reserved. Bespoke Couture Studio.
           </p>
           <p className="mt-3 font-sans text-sm text-foreground/60">
-            Engineered for Digital Sovereignty
+            Crafted in Lagos 🇳🇬 · Delivered Worldwide 🌍 · Engineered for Digital Sovereignty
           </p>
           <p className="mt-3 font-sans text-sm text-foreground/60">
             <a
               href="https://emmanuelogezi.cv"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-rosegold transition-colors"
+              className="transition-colors hover:text-rosegold"
             >
               Engineered by Emmanuel Ogezi
             </a>

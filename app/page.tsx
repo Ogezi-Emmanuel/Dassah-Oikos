@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { motion } from "framer-motion"
-import { useState, useRef } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { useState, useRef, useEffect } from "react"
 import {
   Select,
   SelectContent,
@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import { ChevronDown, ChevronUp, ArrowLeft, ArrowRight } from "lucide-react"
 import ScrollHandler from "@/components/ScrollHandler"
 
 const serviceOptions = [
@@ -82,8 +83,25 @@ const sketchFormats = [
   "Event Capsule Direction",
 ] as const
 
+const slideshowImages = [
+  { src: "/DO Bridal White wedding 1.jpg", label: "White Wedding", caption: "Timeless bridal elegance" },
+  { src: "/DO bridal white wedding 2.jpg", label: "Bridal Couture", caption: "Sculpted for your moment" },
+  { src: "/DO Bridal 2.jpg", label: "Reception Bridal", caption: "Celebration in luxury" },
+  { src: "/DO Bridal.jpg", label: "Custom Bridal", caption: "Designed for your story" },
+  { src: "/DO bridal 3.jpg", label: "Statement Bridal", caption: "Unforgettable silhouettes" },
+  { src: "/DO Prom 1.jpg", label: "Prom Couture", caption: "Your night, your way" },
+  { src: "/DO Prom 2.jpg", label: "Prom Statement", caption: "Red-carpet ready" },
+  { src: "/DO Cultural Mali.jpg", label: "Cultural Couture", caption: "Heritage meets modern" },
+  { src: "/DO Cultural Igbo 2.jpg", label: "Traditional Beauty", caption: "Rooted in culture" },
+  { src: "/Custom Reception dress 1.jpg", label: "Reception Dress", caption: "Dance the night away" },
+  { src: "/Do Custom birthday 2.jpg", label: "Birthday Couture", caption: "Celebrate in style" },
+  { src: "/DO Asoebi 10.jpg", label: "Aso Ebi Excellence", caption: "Uniform, never ordinary" },
+]
+
 export default function Home() {
   const bookingRef = useRef<HTMLDivElement>(null)
+  const [isBookingOpen, setIsBookingOpen] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
   const [formData, setFormData] = useState({
     serviceType: serviceOptions[0].value as (typeof serviceOptions)[number]["value"],
     fullName: "",
@@ -99,9 +117,23 @@ export default function Home() {
     inspirationLink: "",
   })
 
+  // Auto-play slideshow
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slideshowImages.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
+
   const handleScrollToBooking = () => {
-    bookingRef.current?.scrollIntoView({ behavior: "smooth" })
+    setIsBookingOpen(true)
+    setTimeout(() => {
+      bookingRef.current?.scrollIntoView({ behavior: "smooth" })
+    }, 100)
   }
+
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slideshowImages.length)
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slideshowImages.length) % slideshowImages.length)
 
   const availableCategoryOptions =
     formData.serviceType === "creative-director"
@@ -222,6 +254,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <ScrollHandler />
+      {/* HERO SECTION - Simplified to just CTAs */}
       <section className="relative min-h-screen overflow-hidden">
         <video
           autoPlay
@@ -233,40 +266,28 @@ export default function Home() {
         >
           <source src="/DO Hero.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(14,8,8,0.24),rgba(14,8,8,0.18),rgba(14,8,8,0.52))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(14,8,8,0.35),rgba(14,8,8,0.28),rgba(14,8,8,0.68))]" />
 
-        <div className="relative z-10 flex min-h-screen items-center justify-center px-5 pb-20 pt-32 text-center sm:px-6 sm:pb-24 sm:pt-36">
+        <div className="relative z-10 flex min-h-screen items-end justify-center px-5 pb-24 sm:px-6 sm:pb-32">
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
             className="mx-auto max-w-3xl translate-y-6 sm:translate-y-10"
           >
-            <motion.h1
-              className="mb-5 font-serif text-[2.6rem] font-bold leading-[0.95] text-white [text-shadow:0_10px_30px_rgba(0,0,0,0.35)] sm:text-5xl md:text-7xl lg:text-8xl"
-              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.15 } } }}
-            >
-              Couture for unforgettable entrances.
-            </motion.h1>
-            <motion.p
-              className="mx-auto mb-9 max-w-fit rounded-full border border-white/18 bg-black/16 px-5 py-3 font-sans text-[0.9rem] leading-relaxed text-white shadow-[0_12px_34px_rgba(0,0,0,0.22)] backdrop-blur-[6px] md:text-base"
-              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.3 } } }}
-            >
-              Bespoke dresses shaped with elegance, structure, and presence.
-            </motion.p>
             <motion.div
-              className="flex flex-col items-center justify-center gap-3 sm:w-full md:flex-row"
-              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.45 } } }}
+              className="flex flex-col items-center justify-center gap-4 sm:w-full md:flex-row md:gap-5"
+              variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2 } } }}
             >
               <Button
                 onClick={handleScrollToBooking}
-                className="h-auto w-full rounded-full border border-rosegold/35 bg-burgundy/92 px-6 py-4 text-center font-sans text-[0.72rem] uppercase tracking-[0.18em] leading-tight text-white shadow-[0_16px_40px_rgba(97,39,44,0.22)] transition-all hover:scale-[1.02] hover:bg-burgundy sm:w-auto sm:min-w-[15rem] sm:px-9 sm:py-5 sm:text-[0.78rem] sm:tracking-[0.22em]"
+                className="h-auto w-full rounded-full border border-rosegold/35 bg-burgundy/92 px-8 py-5 text-center font-sans text-[0.78rem] uppercase tracking-[0.24em] leading-tight text-white shadow-[0_16px_40px_rgba(97,39,44,0.3)] transition-all hover:scale-[1.03] hover:bg-burgundy sm:w-auto sm:min-w-[18rem] sm:px-12 sm:py-5 sm:text-[0.82rem]"
               >
                 Book a Consultation
               </Button>
               <a
                 href="/collections"
-                className="w-full rounded-full border border-white/26 bg-white/8 px-6 py-4 text-center font-sans text-[0.72rem] uppercase tracking-[0.18em] leading-tight text-white backdrop-blur-[4px] transition-all hover:bg-white/14 sm:w-auto sm:min-w-[13rem] sm:px-8 sm:text-[0.78rem] sm:tracking-[0.2em]"
+                className="w-full rounded-full border border-white/30 bg-white/10 px-8 py-5 text-center font-sans text-[0.78rem] uppercase tracking-[0.24em] leading-tight text-white backdrop-blur-[8px] transition-all hover:bg-white/20 hover:scale-[1.03] sm:w-auto sm:min-w-[16rem] sm:px-12 sm:text-[0.82rem]"
               >
                 View Collections
               </a>
@@ -275,504 +296,589 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-6 py-20 md:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+      {/* Editorial Crossover Section - replaces the two moved sections with a teaser to /the-house */}
+      <section className="px-6 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="editorial-card p-3"
+            className="editorial-shell overflow-hidden"
           >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.4rem]">
-              <Image
-                src="/Custom Reception dress 1.jpg"
-                alt="Dassah Oikos custom occasion dress"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { duration: 0.8, delay: 0.15 } } }}
-            className="editorial-shell p-6 md:p-10"
-          >
-            <p className="font-sans text-xs uppercase tracking-[0.26em] text-burgundy">
-              Why Women Choose Dassah Oikos
-            </p>
-            <h2 className="mt-4 font-serif text-4xl font-bold text-foreground md:text-5xl">
-              Beauty that feels emotional, and quality that makes sense.
-            </h2>
-            <p className="mt-6 max-w-2xl font-sans leading-relaxed text-foreground/72">
-              The right dress does more than look beautiful. It lets a woman move with confidence, trust her silhouette, and enjoy her moment without second-guessing anything.
-            </p>
-
-            <div className="mt-8 space-y-4">
-              {[
-                "It is designed to highlight the body in a soft, elegant, and intentional way.",
-                "It is made for the specific event, so the dress feels right for the room, the photographs, and the memory.",
-                "It is crafted with structure and finish, so it does not only impress at first glance, it holds up beautifully through the day.",
-              ].map((point, index) => (
-                <div key={point} className="rounded-[1.4rem] border border-rosegold/15 bg-white/35 p-5">
-                  <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">0{index + 1}</p>
-                  <p className="mt-3 font-sans leading-relaxed text-foreground/72">{point}</p>
-                </div>
-              ))}
+            <div className="grid md:grid-cols-[1.05fr_0.95fr]">
+              <div className="relative min-h-[420px] order-2 md:order-1">
+                <Image
+                  src="/DO Bridal White wedding 1.jpg"
+                  alt="Dassah Oikos couture house"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-col justify-center p-8 md:p-14 order-1 md:order-2">
+                <p className="font-sans text-xs uppercase tracking-[0.3em] text-burgundy mb-4">
+                  The House
+                </p>
+                <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6 leading-tight">
+                  Inside the ethos, the experience, and the voices of the women we dress.
+                </h2>
+                <p className="mb-8 font-sans leading-relaxed text-foreground/70">
+                  We've gathered everything you need to know about why women choose Dassah Oíkos, the three-step couture experience, and what our clients are saying — all in one considered place.
+                </p>
+                <a
+                  href="/the-house"
+                  className="self-start inline-flex rounded-full border border-rosegold/30 bg-burgundy px-9 py-4 font-sans text-[0.72rem] uppercase tracking-[0.22em] text-white transition-all hover:scale-[1.02] hover:bg-burgundy/90"
+                >
+                  Explore The House
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* The Couture Process Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
+      {/* VIP Commission Section - COLLAPSIBLE */}
+      <section id="booking" ref={bookingRef} className="bg-card/40 py-24 px-6">
+        <div className="max-w-2xl mx-auto">
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="mb-16 text-center font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl"
+            className="text-center"
           >
-            The Dassah Experience
-          </motion.h2>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4">
+              Request a Consultation
+            </h2>
+            <p className="mx-auto mb-8 max-w-xl text-center font-sans text-lg text-foreground/70">
+              Click below to begin your couture journey with Dassah Oikos.
+            </p>
 
-          <div className="grid md:grid-cols-3 gap-8">
+            {/* Collapsible Toggle Button */}
+            <Button
+              onClick={() => setIsBookingOpen(!isBookingOpen)}
+              variant="outline"
+              className="group inline-flex items-center gap-3 rounded-full border border-rosegold/30 bg-burgundy/92 px-10 py-5 text-center font-sans text-[0.78rem] uppercase tracking-[0.24em] text-white transition-all hover:scale-[1.02] hover:bg-burgundy"
+            >
+              {isBookingOpen ? "Close Consultation Form" : "Open Consultation Form"}
+              {isBookingOpen ? (
+                <ChevronUp size={20} className="transition-transform" />
+              ) : (
+                <ChevronDown size={20} className="transition-transform" />
+              )}
+            </Button>
+          </motion.div>
+
+          {/* Collapsible Content */}
+          <AnimatePresence initial={false}>
+            {isBookingOpen && (
+              <motion.div
+                key="booking-form"
+                initial={{ opacity: 0, height: 0, y: -20 }}
+                animate={{ opacity: 1, height: "auto", y: 0 }}
+                exit={{ opacity: 0, height: 0, y: -20 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="overflow-hidden mt-12"
+              >
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="mx-auto mb-12 max-w-xl text-center font-sans text-lg text-foreground/70"
+                >
+                  Choose the consultation path that fits your stage. Pricing appears inside this section based on the service and category you select.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.15 }}
+                  className="editorial-shell mb-10 grid gap-4 p-5 md:grid-cols-3 md:p-6"
+                >
+                  <div>
+                    <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Consultation</p>
+                    <p className="mt-3 font-sans leading-relaxed text-foreground/72">
+                      Your first consultation is complimentary and helps us understand the right direction for your dress.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Private Direction</p>
+                    <p className="mt-3 font-sans leading-relaxed text-foreground/72">
+                      Private consultation is available for Aso Ebi and Wedding clients, with the fee shown after you choose the category.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Sketch Service</p>
+                    <p className="mt-3 font-sans leading-relaxed text-foreground/72">
+                      Personalized sketch requests are ₦100,000 and the fee is waived when you proceed with the outfit through the brand.
+                    </p>
+                  </div>
+                </motion.div>
+
+                <motion.form
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  onSubmit={handleSubmit}
+                  className="editorial-shell space-y-6 p-5 md:p-8"
+                >
+                  <div className="space-y-4">
+                    <Label className="text-foreground font-sans">Choose Your Experience</Label>
+                    <div className="grid gap-4 md:grid-cols-3">
+                      {serviceOptions.map((service) => {
+                        const isActive = formData.serviceType === service.value
+
+                        return (
+                          <button
+                            key={service.value}
+                            type="button"
+                            onClick={() => handleServiceChange(service.value)}
+                            className={`w-full rounded-2xl border p-4 text-left transition-all sm:p-5 ${
+                              isActive
+                                ? "border-rosegold bg-rosegold/10 shadow-lg shadow-rosegold/10"
+                                : "border-border bg-background/70 hover:border-rosegold/40"
+                            }`}
+                          >
+                            <div className="mb-2 font-serif text-base leading-tight text-foreground sm:text-lg">{service.label}</div>
+                            <p className="mb-3 text-sm font-sans leading-relaxed text-foreground/70">
+                              {service.description}
+                            </p>
+                            <p className="text-[0.68rem] font-sans uppercase tracking-[0.16em] text-burgundy sm:text-xs sm:tracking-[0.2em]">{service.fee}</p>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-rosegold/25 bg-background/80 p-5">
+                    <p className="font-serif text-xl text-foreground">{selectedService.label}</p>
+                    <p className="mt-2 font-sans text-sm uppercase tracking-[0.2em] text-burgundy">
+                      {selectedServiceFee}
+                    </p>
+                    <p className="mt-3 font-sans text-sm text-foreground/70">
+                      {selectedService.value === "consultation"
+                        ? "This first conversation is complimentary and helps us understand your category, timeline, and commission fit."
+                        : selectedService.value === "creative-director"
+                          ? "Private consultations are priced for Aso Ebi and Wedding clients only, based on the selected category."
+                          : "Sketch requests are charged at ₦100,000 and the fee is waived if you proceed with outfit creation through the brand."}
+                    </p>
+                    {budgetOptions.length > 0 && (
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {budgetOptions.map((budget) => (
+                          <span
+                            key={budget}
+                            className="rounded-full border border-rosegold/20 bg-rosegold/10 px-3 py-2 font-sans text-[0.7rem] uppercase tracking-[0.16em] text-burgundy"
+                          >
+                            {budget}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="fullName" className="text-foreground font-sans">Full Name</Label>
+                    <Input
+                      id="fullName"
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      required
+                      className="h-12 border-border bg-background text-foreground placeholder:text-foreground/45"
+                      placeholder="Enter your full name"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="phoneNumber" className="text-foreground font-sans">Phone Number</Label>
+                    <Input
+                      id="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                      required
+                      className="h-12 border-border bg-background text-foreground placeholder:text-foreground/45"
+                      placeholder="Enter your phone number"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="location" className="text-foreground font-sans">Location (City/Country)</Label>
+                    <Input
+                      id="location"
+                      value={formData.location}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                      required
+                      className="h-12 border-border bg-background text-foreground placeholder:text-foreground/45"
+                      placeholder="Lagos, Nigeria"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="garmentType" className="text-foreground font-sans">
+                      {formData.serviceType === "personalized-sketch" ? "What should we sketch?" : "Collection Category"}
+                    </Label>
+                    <Select
+                      value={formData.garmentType}
+                      onValueChange={handleCategoryChange}
+                      required
+                    >
+                      <SelectTrigger id="garmentType" className="h-12 border-border bg-background text-foreground">
+                        <SelectValue placeholder="Select collection category" />
+                      </SelectTrigger>
+                      <SelectContent className="border-border bg-card text-foreground">
+                        {availableCategoryOptions.map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="eventDate" className="text-foreground font-sans">
+                      {formData.serviceType === "creative-director" ? "When do you need direction by?" : "Event Date"}
+                    </Label>
+                    <Input
+                      id="eventDate"
+                      type="date"
+                      value={formData.eventDate}
+                      onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
+                      required
+                      className="h-12 border-border bg-background text-foreground"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="budget" className="text-foreground font-sans">
+                      {formData.serviceType === "creative-director" ? "Desired Investment Tier" : "Estimated Investment"}
+                    </Label>
+                    <Select
+                      value={formData.budget}
+                      onValueChange={(value) => setFormData({ ...formData, budget: value })}
+                      disabled={!formData.garmentType}
+                      required
+                    >
+                      <SelectTrigger id="budget" className="h-12 border-border bg-background text-foreground">
+                        <SelectValue placeholder={formData.garmentType ? "Select investment range" : "Select category first"} />
+                      </SelectTrigger>
+                      <SelectContent className="border-border bg-card text-foreground">
+                        {budgetOptions.map((budget) => (
+                          <SelectItem key={budget} value={budget}>
+                            {budget}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <p className="text-sm font-sans text-foreground/65">
+                      Pricing is tied to the selected category and refined further by finishing, embellishment, and structure.
+                    </p>
+                  </div>
+
+                  {formData.serviceType === "consultation" && (
+                    <div className="space-y-2">
+                      <Label htmlFor="designBrief" className="text-foreground font-sans">What would you like us to know?</Label>
+                      <Textarea
+                        id="designBrief"
+                        value={formData.designBrief}
+                        onChange={(e) => setFormData({ ...formData, designBrief: e.target.value })}
+                        required
+                        className="min-h-[150px] border-border bg-background text-foreground placeholder:text-foreground/45"
+                        placeholder="Share your event, preferred silhouette, mood, fit expectations, and any details that matter to you."
+                      />
+                    </div>
+                  )}
+
+                  {formData.serviceType === "creative-director" && (
+                    <>
+                      <div className="space-y-2">
+                        <Label htmlFor="consultationMode" className="text-foreground font-sans">Preferred Consultation Format</Label>
+                        <Select
+                          value={formData.consultationMode}
+                          onValueChange={(value) => setFormData({ ...formData, consultationMode: value })}
+                          required
+                        >
+                          <SelectTrigger id="consultationMode" className="h-12 border-border bg-background text-foreground">
+                            <SelectValue placeholder="Choose a format" />
+                          </SelectTrigger>
+                          <SelectContent className="border-border bg-card text-foreground">
+                            {consultationModes.map((mode) => (
+                              <SelectItem key={mode} value={mode}>
+                                {mode}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="consultationFocus" className="text-foreground font-sans">What do you want the creative director to guide you on?</Label>
+                        <Textarea
+                          id="consultationFocus"
+                          value={formData.consultationFocus}
+                          onChange={(e) => setFormData({ ...formData, consultationFocus: e.target.value })}
+                          required
+                          className="min-h-[150px] border-border bg-background text-foreground placeholder:text-foreground/45"
+                          placeholder="Tell us whether you need direction on silhouette, styling, fabric mood, couture finishing, event image, or overall concept."
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {formData.serviceType === "personalized-sketch" && (
+                    <>
+                      <div className="space-y-2">
+                        <Label htmlFor="sketchFormat" className="text-foreground font-sans">Sketch Package</Label>
+                        <Select
+                          value={formData.sketchFormat}
+                          onValueChange={(value) => setFormData({ ...formData, sketchFormat: value })}
+                          required
+                        >
+                          <SelectTrigger id="sketchFormat" className="h-12 border-border bg-background text-foreground">
+                            <SelectValue placeholder="Choose a sketch format" />
+                          </SelectTrigger>
+                          <SelectContent className="border-border bg-card text-foreground">
+                            {sketchFormats.map((format) => (
+                              <SelectItem key={format} value={format}>
+                                {format}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="inspirationLink" className="text-foreground font-sans">Reference Link (Optional)</Label>
+                        <Input
+                          id="inspirationLink"
+                          value={formData.inspirationLink}
+                          onChange={(e) => setFormData({ ...formData, inspirationLink: e.target.value })}
+                          className="h-12 border-border bg-background text-foreground placeholder:text-foreground/45"
+                          placeholder="Paste a Pinterest, Instagram, or mood-board link"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="designBrief" className="text-foreground font-sans">Describe the sketch you want</Label>
+                        <Textarea
+                          id="designBrief"
+                          value={formData.designBrief}
+                          onChange={(e) => setFormData({ ...formData, designBrief: e.target.value })}
+                          required
+                          className="min-h-[150px] border-border bg-background text-foreground placeholder:text-foreground/45"
+                          placeholder="Describe the silhouette, embellishment mood, neckline, color direction, and how you want the look to feel."
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  <div className="rounded-2xl border border-rosegold/20 bg-white/45 px-4 py-4 text-center sm:px-5">
+                    <p className="font-sans text-[0.72rem] uppercase tracking-[0.2em] text-burgundy">
+                      Alternative Enquiry
+                    </p>
+                    <p className="mt-2 font-sans text-sm leading-relaxed text-foreground/72">
+                      For custom male dresses,{" "}
+                      <a
+                        href={maleDressWhatsAppUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-medium text-burgundy underline decoration-rosegold/60 underline-offset-4 transition hover:text-burgundy/80"
+                      >
+                        chat on WhatsApp
+                      </a>
+                      .
+                    </p>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-burgundy hover:bg-burgundy/90 text-white text-lg py-7 h-auto rounded-full border border-rosegold/30 shadow-lg shadow-burgundy/20 transition-all hover:scale-[1.02]"
+                  >
+                    {formData.serviceType === "consultation"
+                      ? "Send Complimentary Consultation Request"
+                      : formData.serviceType === "creative-director"
+                        ? "Request Private Consultation & Payment Details"
+                        : "Request Personalized Sketch & Payment Details"}
+                  </Button>
+                </motion.form>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* Atelier Gallery Section */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-center mb-16"
+          >
+            <p className="font-sans text-xs uppercase tracking-[0.28em] text-burgundy mb-4">
+              The Atelier
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+              Signature Pieces
+            </h2>
+          </motion.div>
+
+          <div className="grid gap-4 md:grid-cols-3 grid-rows-[auto_auto_auto]">
+            {/* Masonry Layout using public videos for visual interest */}
             {[
-              {
-                step: "01",
-                title: "The First Conversation",
-                description: "A thoughtful start centered on your event, preferences, and ideal silhouette.",
-              },
-              {
-                step: "02",
-                title: "The Architecture",
-                description: "Precision measurements, couture decisions, and structural refinement.",
-              },
-              {
-                step: "03",
-                title: "The Final Fitting",
-                description: "Perfecting the finish, fit, and presence before delivery.",
-              },
+              { video: "/DO Aso Ebi 1.mp4", span: "md:row-span-2 md:col-span-1 aspect-[3/4]", label: "Aso Ebi Couture" },
+              { video: "/DO Bridal dress.mp4", span: "md:col-span-2 aspect-[16/10]", label: "Bridal Collection" },
+              { video: "/DO Custom birthday.mp4", span: "md:col-span-1 aspect-square", label: "Birthday Couture" },
+              { video: "/DO White Wedding.mp4", span: "md:col-span-1 aspect-square", label: "White Wedding" },
+              { video: "/DO Cultural Igbo.mp4", span: "md:col-span-1 aspect-square", label: "Traditional Beauty" },
             ].map((item, index) => (
               <motion.div
                 key={index}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { duration: 0.8, delay: index * 0.2 } } }}
-                className="editorial-card relative p-8 transition-all hover:border-rosegold/50 hover:shadow-xl hover:shadow-rosegold/10"
+                variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { delay: index * 0.1 } } }}
+                className={`editorial-card overflow-hidden group relative ${item.span}`}
               >
-                <div className="text-rosegold font-serif text-6xl font-bold mb-4 opacity-30">
-                  {item.step}
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                >
+                  <source src={item.video} type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
+                  <h3 className="font-serif text-2xl font-bold text-white mb-3">{item.label}</h3>
+                  <a
+                    href="https://api.whatsapp.com/send?phone=2348132098926"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="self-start inline-flex rounded-full border border-rosegold/30 bg-burgundy/92 px-6 py-2.5 font-sans text-[0.7rem] uppercase tracking-[0.2em] text-white transition-all hover:bg-burgundy"
+                  >
+                    Commission This Look
+                  </a>
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-foreground mb-4">
-                  {item.title}
-                </h3>
-                <p className="text-foreground/70 font-sans">
-                  {item.description}
-                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* VIP Commission Section */}
-      <section id="booking" ref={bookingRef} className="bg-card/40 py-24 px-6">
-        <div className="max-w-2xl mx-auto">
-          <motion.h2
+      {/* SLIDESHOW SECTION - Bespoke Wears for Any Occasion */}
+      <section className="bg-card/35 py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-6 text-center"
+            className="text-center mb-14"
           >
-            Request a Consultation
-          </motion.h2>
-          <motion.p
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="mx-auto mb-12 max-w-xl text-center font-sans text-lg text-foreground/70"
-          >
-            Choose the consultation path that fits your stage. Pricing appears inside this section based on the service and category you select.
-          </motion.p>
+            <p className="font-sans text-xs uppercase tracking-[0.3em] text-burgundy mb-4">
+              The Occasion Edit
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+              Bespoke Wears for Any Occasion
+            </h2>
+          </motion.div>
 
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="editorial-shell mb-10 grid gap-4 p-5 md:grid-cols-3 md:p-6"
+            className="relative"
           >
-            <div>
-              <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Consultation</p>
-              <p className="mt-3 font-sans leading-relaxed text-foreground/72">
-                Your first consultation is complimentary and helps us understand the right direction for your dress.
-              </p>
+            {/* Slides Container */}
+            <div className="relative aspect-[16/10] md:aspect-[21/9] overflow-hidden rounded-3xl editorial-card p-3">
+              <div className="relative w-full h-full overflow-hidden rounded-[1.4rem]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentSlide}
+                    initial={{ opacity: 0, scale: 1.08 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.05 }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={slideshowImages[currentSlide].src}
+                      alt={slideshowImages[currentSlide].label}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 80vw"
+                      className="object-cover"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-8 md:p-12">
+                      <p className="mb-2 font-sans text-[0.7rem] uppercase tracking-[0.28em] text-rosegold md:text-xs">
+                        {slideshowImages[currentSlide].label}
+                      </p>
+                      <h3 className="font-serif text-2xl font-bold text-white md:text-4xl">
+                        {slideshowImages[currentSlide].caption}
+                      </h3>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Prev / Next Controls */}
+              <button
+                onClick={prevSlide}
+                aria-label="Previous image"
+                className="absolute left-6 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white backdrop-blur-md transition-all hover:bg-black/50 hover:scale-110 md:h-14 md:w-14"
+              >
+                <ArrowLeft size={22} />
+              </button>
+              <button
+                onClick={nextSlide}
+                aria-label="Next image"
+                className="absolute right-6 top-1/2 -translate-y-1/2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white backdrop-blur-md transition-all hover:bg-black/50 hover:scale-110 md:h-14 md:w-14"
+              >
+                <ArrowRight size={22} />
+              </button>
             </div>
-            <div>
-              <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Private Direction</p>
-              <p className="mt-3 font-sans leading-relaxed text-foreground/72">
-                Private consultation is available for Aso Ebi and Wedding clients, with the fee shown after you choose the category.
-              </p>
+
+            {/* Thumbnails */}
+            <div className="mt-6 grid grid-cols-6 md:grid-cols-12 gap-2">
+              {slideshowImages.map((img, index) => (
+                <button
+                  key={img.src}
+                  onClick={() => setCurrentSlide(index)}
+                  aria-label={`Go to slide ${index + 1}: ${img.label}`}
+                  className={`relative aspect-square overflow-hidden rounded-xl transition-all ${
+                    currentSlide === index
+                      ? "ring-2 ring-rosegold scale-105 shadow-lg shadow-rosegold/30"
+                      : "opacity-60 hover:opacity-100"
+                  }`}
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.label}
+                    fill
+                    sizes="(max-width: 1024px) 16vw, 8vw"
+                    className="object-cover"
+                  />
+                </button>
+              ))}
             </div>
-            <div>
-              <p className="font-sans text-xs uppercase tracking-[0.22em] text-burgundy">Sketch Service</p>
-              <p className="mt-3 font-sans leading-relaxed text-foreground/72">
-                Personalized sketch requests are ₦100,000 and the fee is waived when you proceed with the outfit through the brand.
-              </p>
+
+            {/* CTA */}
+            <div className="mt-12 text-center">
+              <a
+                href="/collections"
+                className="inline-flex rounded-full border border-rosegold/35 bg-burgundy/92 px-10 py-5 font-sans text-[0.78rem] uppercase tracking-[0.24em] text-white transition-all hover:scale-[1.02] hover:bg-burgundy"
+              >
+                Explore Full Collections
+              </a>
             </div>
           </motion.div>
-
-          <motion.form
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            onSubmit={handleSubmit}
-            className="editorial-shell space-y-6 p-5 md:p-8"
-          >
-            <div className="space-y-4">
-              <Label className="text-foreground font-sans">Choose Your Experience</Label>
-              <div className="grid gap-4 md:grid-cols-3">
-                {serviceOptions.map((service) => {
-                  const isActive = formData.serviceType === service.value
-
-                  return (
-                    <button
-                      key={service.value}
-                      type="button"
-                      onClick={() => handleServiceChange(service.value)}
-                      className={`w-full rounded-2xl border p-4 text-left transition-all sm:p-5 ${
-                        isActive
-                          ? "border-rosegold bg-rosegold/10 shadow-lg shadow-rosegold/10"
-                          : "border-border bg-background/70 hover:border-rosegold/40"
-                      }`}
-                    >
-                      <div className="mb-2 font-serif text-base leading-tight text-foreground sm:text-lg">{service.label}</div>
-                      <p className="mb-3 text-sm font-sans leading-relaxed text-foreground/70">
-                        {service.description}
-                      </p>
-                      <p className="text-[0.68rem] font-sans uppercase tracking-[0.16em] text-burgundy sm:text-xs sm:tracking-[0.2em]">{service.fee}</p>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-rosegold/25 bg-background/80 p-5">
-              <p className="font-serif text-xl text-foreground">{selectedService.label}</p>
-              <p className="mt-2 font-sans text-sm uppercase tracking-[0.2em] text-burgundy">
-                {selectedServiceFee}
-              </p>
-              <p className="mt-3 font-sans text-sm text-foreground/70">
-                {selectedService.value === "consultation"
-                  ? "This first conversation is complimentary and helps us understand your category, timeline, and commission fit."
-                  : selectedService.value === "creative-director"
-                    ? "Private consultations are priced for Aso Ebi and Wedding clients only, based on the selected category."
-                    : "Sketch requests are charged at ₦100,000 and the fee is waived if you proceed with outfit creation through the brand."}
-              </p>
-              {budgetOptions.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {budgetOptions.map((budget) => (
-                    <span
-                      key={budget}
-                      className="rounded-full border border-rosegold/20 bg-rosegold/10 px-3 py-2 font-sans text-[0.7rem] uppercase tracking-[0.16em] text-burgundy"
-                    >
-                      {budget}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="fullName" className="text-foreground font-sans">Full Name</Label>
-              <Input
-                id="fullName"
-                value={formData.fullName}
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                required
-                className="h-12 border-border bg-background text-foreground placeholder:text-foreground/45"
-                placeholder="Enter your full name"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="phoneNumber" className="text-foreground font-sans">Phone Number</Label>
-              <Input
-                id="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                required
-                className="h-12 border-border bg-background text-foreground placeholder:text-foreground/45"
-                placeholder="Enter your phone number"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="location" className="text-foreground font-sans">Location (City/Country)</Label>
-              <Input
-                id="location"
-                value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                required
-                className="h-12 border-border bg-background text-foreground placeholder:text-foreground/45"
-                placeholder="Lagos, Nigeria"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="garmentType" className="text-foreground font-sans">
-                {formData.serviceType === "personalized-sketch" ? "What should we sketch?" : "Collection Category"}
-              </Label>
-              <Select
-                value={formData.garmentType}
-                onValueChange={handleCategoryChange}
-                required
-              >
-                <SelectTrigger id="garmentType" className="h-12 border-border bg-background text-foreground">
-                  <SelectValue placeholder="Select collection category" />
-                </SelectTrigger>
-                <SelectContent className="border-border bg-card text-foreground">
-                  {availableCategoryOptions.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="eventDate" className="text-foreground font-sans">
-                {formData.serviceType === "creative-director" ? "When do you need direction by?" : "Event Date"}
-              </Label>
-              <Input
-                id="eventDate"
-                type="date"
-                value={formData.eventDate}
-                onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
-                required
-                className="h-12 border-border bg-background text-foreground"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="budget" className="text-foreground font-sans">
-                {formData.serviceType === "creative-director" ? "Desired Investment Tier" : "Estimated Investment"}
-              </Label>
-              <Select
-                value={formData.budget}
-                onValueChange={(value) => setFormData({ ...formData, budget: value })}
-                disabled={!formData.garmentType}
-                required
-              >
-                <SelectTrigger id="budget" className="h-12 border-border bg-background text-foreground">
-                  <SelectValue placeholder={formData.garmentType ? "Select investment range" : "Select category first"} />
-                </SelectTrigger>
-                <SelectContent className="border-border bg-card text-foreground">
-                  {budgetOptions.map((budget) => (
-                    <SelectItem key={budget} value={budget}>
-                      {budget}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-sm font-sans text-foreground/65">
-                Pricing is tied to the selected category and refined further by finishing, embellishment, and structure.
-              </p>
-            </div>
-
-            {formData.serviceType === "consultation" && (
-              <div className="space-y-2">
-                <Label htmlFor="designBrief" className="text-foreground font-sans">What would you like us to know?</Label>
-                <Textarea
-                  id="designBrief"
-                  value={formData.designBrief}
-                  onChange={(e) => setFormData({ ...formData, designBrief: e.target.value })}
-                  required
-                  className="min-h-[150px] border-border bg-background text-foreground placeholder:text-foreground/45"
-                  placeholder="Share your event, preferred silhouette, mood, fit expectations, and any details that matter to you."
-                />
-              </div>
-            )}
-
-            {formData.serviceType === "creative-director" && (
-              <>
-                <div className="space-y-2">
-                  <Label htmlFor="consultationMode" className="text-foreground font-sans">Preferred Consultation Format</Label>
-                  <Select
-                    value={formData.consultationMode}
-                    onValueChange={(value) => setFormData({ ...formData, consultationMode: value })}
-                    required
-                  >
-                    <SelectTrigger id="consultationMode" className="h-12 border-border bg-background text-foreground">
-                      <SelectValue placeholder="Choose a format" />
-                    </SelectTrigger>
-                    <SelectContent className="border-border bg-card text-foreground">
-                      {consultationModes.map((mode) => (
-                        <SelectItem key={mode} value={mode}>
-                          {mode}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="consultationFocus" className="text-foreground font-sans">What do you want the creative director to guide you on?</Label>
-                  <Textarea
-                    id="consultationFocus"
-                    value={formData.consultationFocus}
-                    onChange={(e) => setFormData({ ...formData, consultationFocus: e.target.value })}
-                    required
-                    className="min-h-[150px] border-border bg-background text-foreground placeholder:text-foreground/45"
-                    placeholder="Tell us whether you need direction on silhouette, styling, fabric mood, couture finishing, event image, or overall concept."
-                  />
-                </div>
-              </>
-            )}
-
-            {formData.serviceType === "personalized-sketch" && (
-              <>
-                <div className="space-y-2">
-                  <Label htmlFor="sketchFormat" className="text-foreground font-sans">Sketch Package</Label>
-                  <Select
-                    value={formData.sketchFormat}
-                    onValueChange={(value) => setFormData({ ...formData, sketchFormat: value })}
-                    required
-                  >
-                    <SelectTrigger id="sketchFormat" className="h-12 border-border bg-background text-foreground">
-                      <SelectValue placeholder="Choose a sketch format" />
-                    </SelectTrigger>
-                    <SelectContent className="border-border bg-card text-foreground">
-                      {sketchFormats.map((format) => (
-                        <SelectItem key={format} value={format}>
-                          {format}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="inspirationLink" className="text-foreground font-sans">Reference Link (Optional)</Label>
-                  <Input
-                    id="inspirationLink"
-                    value={formData.inspirationLink}
-                    onChange={(e) => setFormData({ ...formData, inspirationLink: e.target.value })}
-                    className="h-12 border-border bg-background text-foreground placeholder:text-foreground/45"
-                    placeholder="Paste a Pinterest, Instagram, or mood-board link"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="designBrief" className="text-foreground font-sans">Describe the sketch you want</Label>
-                  <Textarea
-                    id="designBrief"
-                    value={formData.designBrief}
-                    onChange={(e) => setFormData({ ...formData, designBrief: e.target.value })}
-                    required
-                    className="min-h-[150px] border-border bg-background text-foreground placeholder:text-foreground/45"
-                    placeholder="Describe the silhouette, embellishment mood, neckline, color direction, and how you want the look to feel."
-                  />
-                </div>
-              </>
-            )}
-
-            <div className="rounded-2xl border border-rosegold/20 bg-white/45 px-4 py-4 text-center sm:px-5">
-              <p className="font-sans text-[0.72rem] uppercase tracking-[0.2em] text-burgundy">
-                Alternative Enquiry
-              </p>
-              <p className="mt-2 font-sans text-sm leading-relaxed text-foreground/72">
-                For custom male dresses,{" "}
-                <a
-                  href={maleDressWhatsAppUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-medium text-burgundy underline decoration-rosegold/60 underline-offset-4 transition hover:text-burgundy/80"
-                >
-                  chat on WhatsApp
-                </a>
-                .
-              </p>
-            </div>
-
-            <Button
-              type="submit"
-              className="w-full bg-burgundy hover:bg-burgundy/90 text-white text-lg py-7 h-auto rounded-full border border-rosegold/30 shadow-lg shadow-burgundy/20 transition-all hover:scale-[1.02]"
-            >
-              {formData.serviceType === "consultation"
-                ? "Send Complimentary Consultation Request"
-                : formData.serviceType === "creative-director"
-                  ? "Request Private Consultation & Payment Details"
-                  : "Request Personalized Sketch & Payment Details"}
-            </Button>
-          </motion.form>
         </div>
       </section>
-
-      {/* Testimonials Section */}
-      <section className="bg-card/40 py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <motion.h2
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-16 text-center"
-          >
-            What Our Clients Say
-          </motion.h2>
-
-          <div className="grid gap-8 md:grid-cols-3">
-            {[
-              {
-                name: "Amara Okafor",
-                text: "The most beautiful dress I've ever worn. The craftsmanship is impeccable and the attention to detail is extraordinary.",
-                location: "Lagos, Nigeria",
-              },
-              {
-                name: "Zara Hassan",
-                text: "From start to finish, the experience was magical. My wedding dress was everything I dreamed of and more.",
-                location: "Abuja, Nigeria",
-              },
-              {
-                name: "Sophie Williams",
-                text: "Absolutely stunning work! The corsetry is a work of art. I felt like a queen in my custom gown.",
-                location: "London, UK",
-              },
-            ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={{ ...fadeInUp, visible: { ...fadeInUp.visible, transition: { delay: index * 0.1 } } }}
-                className="editorial-card p-8 transition-all hover:border-rosegold/30"
-              >
-                <div className="text-rosegold mb-4 text-2xl">★★★★★</div>
-                <p className="mb-6 font-sans italic leading-relaxed text-foreground/75">
-                  "{testimonial.text}"
-                </p>
-                <div className="font-serif font-bold text-foreground">{testimonial.name}</div>
-                <div className="font-sans text-sm text-foreground/65">{testimonial.location}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-
     </div>
   )
 }
