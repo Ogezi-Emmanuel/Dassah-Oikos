@@ -36,6 +36,11 @@ interface RawAsset {
   mimeType: string
 }
 
+interface PriorityFileOverride {
+  fileName: string
+  customTitle: string
+}
+
 interface CollectionConfig {
   slug: CollectionSlug
   title: string
@@ -46,6 +51,8 @@ interface CollectionConfig {
   featuredImageFile?: string
   featuredVideoFile: string
   titlePool: string[]
+  excludedFiles?: string[]
+  priorityFiles?: PriorityFileOverride[]
   matchAsset: (fileName: string) => boolean
 }
 
@@ -59,17 +66,28 @@ const collectionConfigs: CollectionConfig[] = [
     logicalReason: "Designed for event impact, movement, and a silhouette that reads beautifully in person and on camera.",
     featuredImageFile: "DO Asoebi 10.jpg",
     featuredVideoFile: "DO Asoebi 10.mp4",
+    excludedFiles: ["DO Wedding Aso Oke.mp4"],
+    priorityFiles: [
+      {
+        fileName: "DO Asoebi 7.jpg",
+        customTitle: "Sovereign Silhouette",
+      },
+      {
+        fileName: "DO Asoebi 6.mp4",
+        customTitle: "Gala Signature",
+      },
+    ],
     titlePool: [
-      "Rosewater Entrance",
+      "Ceremonial Entrance",
       "Golden Hour Guest",
       "Velvet Promise",
-      "Champagne Curve",
+      "Celebration Curve",
       "Soft Power",
       "Evening Bloom",
       "Afterglow Muse",
       "Silk Poise",
       "Radiant Company",
-      "Moonlit Entrance",
+      "Candlelit Entrance",
       "Garden Toast",
       "Candlelit Confidence",
       "Pearled Presence",
@@ -78,6 +96,13 @@ const collectionConfigs: CollectionConfig[] = [
       "Orchid Hour",
       "Refined Desire",
       "Quiet Opulence",
+      "Gala Signature",
+      "Sovereign Silhouette",
+      "Majestic Form",
+      "Reception Radiance",
+      "Matriarch Poise",
+      "Sovereign Grace",
+      "Heiress Entrance",
     ],
     matchAsset: (fileName) => fileName.toLowerCase().includes("aso"),
   },
@@ -90,17 +115,27 @@ const collectionConfigs: CollectionConfig[] = [
     logicalReason: "Built around structure, balance, and finish so the gown feels beautiful from fitting to final photograph.",
     featuredImageFile: "DO Bridal White wedding 1.jpg",
     featuredVideoFile: "DO White Wedding.mp4",
+    priorityFiles: [
+      {
+        fileName: "DO Wedding Aso Oke.mp4",
+        customTitle: "Aso Oke Traditional Vows",
+      },
+    ],
     titlePool: [
-      "Ivory Vow",
+      "Vow of Devotion",
       "Quiet Devotion",
       "First Light Bride",
       "Veil of Grace",
       "The Vow Dress",
       "Cathedral Softness",
-      "Pearl Promise",
+      "Promise of the Aisle",
       "Bridal Stillness",
       "Aisle Poetry",
       "After the Yes",
+      "Aso Oke Traditional Vows",
+      "Heritage Nuptials",
+      "Royal Aisle Bloom",
+      "Traditional Vows",
     ],
     matchAsset: (fileName) => {
       const normalized = fileName.toLowerCase()
@@ -151,8 +186,8 @@ const collectionConfigs: CollectionConfig[] = [
       "Evening Signature",
       "Promise in Silk",
       "Celebration Sculpt",
-      "Velvet Toast",
-      "Midnight Hostess",
+      "Toast of the Evening",
+      "Evening Hostess",
       "The Last Dance Look",
       "Occasion Muse",
     ],
@@ -219,8 +254,60 @@ async function getRawAssets(): Promise<RawAsset[]> {
     .sort((left, right) => left.fileName.localeCompare(right.fileName))
 }
 
+function applyPrioritySortAndTitles(
+  items: CollectionMediaItem[],
+  priorityFiles: PriorityFileOverride[] | undefined,
+  poolTitles: string[],
+): CollectionMediaItem[] {
+  if (!priorityFiles || priorityFiles.length === 0) {
+    return items
+  }
+
+  const priorityOrder = new Map(priorityFiles.map((p, idx) => [p.fileName.toLowerCase(), idx]))
+  const titleOverrides = new Map(priorityFiles.map((p) => [p.fileName.toLowerCase(), p.customTitle]))
+
+  const priorityItems: CollectionMediaItem[] = []
+  const otherItems: CollectionMediaItem[] = []
+
+  for (const item of items) {
+    const key = item.fileName.toLowerCase()
+    if (priorityOrder.has(key)) {
+      priorityItems.push({
+        ...item,
+        title: titleOverrides.get(key) ?? item.title,
+      })
+    } else {
+      otherItems.push(item)
+    }
+  }
+
+  priorityItems.sort((a, b) => {
+    const ai = priorityOrder.get(a.fileName.toLowerCase()) ?? 0
+    const bi = priorityOrder.get(b.fileName.toLowerCase()) ?? 0
+    return ai - bi
+  })
+
+  const allItems = [...priorityItems, ...otherItems]
+
+  return allItems.map((item, idx) => {
+    if (titleOverrides.has(item.fileName.toLowerCase())) {
+      return item
+    }
+    return {
+      ...item,
+      title: poolTitles[idx] ?? item.title,
+    }
+  })
+}
+
 function buildCollection(config: CollectionConfig, rawAssets: RawAsset[]): FashionCollection | null {
-  const matchingAssets = rawAssets.filter((asset) => config.matchAsset(asset.fileName))
+  let matchingAssets = rawAssets.filter((asset) => config.matchAsset(asset.fileName))
+
+  if (config.excludedFiles && config.excludedFiles.length > 0) {
+    const excludedSet = new Set(config.excludedFiles.map((f) => f.toLowerCase()))
+    matchingAssets = matchingAssets.filter((asset) => !excludedSet.has(asset.fileName.toLowerCase()))
+  }
+
   const featuredImage = config.featuredImageFile
     ? matchingAssets.find((asset) => asset.fileName === config.featuredImageFile && asset.kind === "image")
     : null
@@ -230,10 +317,19 @@ function buildCollection(config: CollectionConfig, rawAssets: RawAsset[]): Fashi
     return null
   }
 
-  const titledItems = matchingAssets.map((asset, index) => ({
-    ...asset,
-    title: config.titlePool[index] ?? `${config.title} ${index + 1}`,
-  }))
+  const priorityTitleMap = new Map(
+    (config.priorityFiles ?? []).map((p) => [p.fileName.toLowerCase(), p.customTitle]),
+  )
+
+  let titledItems: CollectionMediaItem[] = matchingAssets.map((asset, index) => {
+    const overrideTitle = priorityTitleMap.get(asset.fileName.toLowerCase())
+    return {
+      ...asset,
+      title: overrideTitle ?? config.titlePool[index] ?? `${config.title} ${index + 1}`,
+    }
+  })
+
+  titledItems = applyPrioritySortAndTitles(titledItems, config.priorityFiles, config.titlePool)
 
   return {
     slug: config.slug,
